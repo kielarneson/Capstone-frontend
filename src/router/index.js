@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import TailgateIndex from "../views/TailgateIndex";
+import TailgateShow from "../views/TailgateShow";
 
 Vue.use(VueRouter);
 
@@ -18,6 +20,8 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
+  { path: "/tailgates", name: "TailgateIndex", component: TailgateIndex },
+  { path: "/tailgates/:id", name: "TailgateShow", component: TailgateShow },
 ];
 
 const router = new VueRouter({
