@@ -18,9 +18,6 @@
       <!-- <p>{{ tailgate.description }}</p> -->
       <!-- <p>{{ tailgate }}</p> -->
     </div>
-    <div v-for="game in games" v-bind:key="game.id">
-      {{ game.venue }}
-    </div>
   </div>
 </template>
 
@@ -30,8 +27,6 @@ export default {
   data: function () {
     return {
       tailgates: [],
-      games: [],
-      // currentTailgate: {},
     };
   },
   created: function () {
@@ -43,12 +38,6 @@ export default {
       axios.get("/tailgates").then((response) => {
         console.log("Tailgate index", response);
         this.tailgates = response.data;
-      });
-    },
-    indexGames: function () {
-      axios.get("/games").then((response) => {
-        console.log("Games index", response);
-        this.games = response.data;
       });
     },
   },

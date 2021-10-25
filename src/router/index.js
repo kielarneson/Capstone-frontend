@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import TailgateIndex from "../views/TailgateIndex";
 import TailgateShow from "../views/TailgateShow";
+import GameIndex from "../views/GameIndex";
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,7 @@ const routes = [
   },
   { path: "/tailgates", name: "TailgateIndex", component: TailgateIndex },
   { path: "/tailgates/:id", name: "TailgateShow", component: TailgateShow },
+  { path: "/games", name: "GameIndex", component: GameIndex },
 ];
 
 const router = new VueRouter({
