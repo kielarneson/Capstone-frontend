@@ -4,7 +4,7 @@
     <p>{{ tailgate.game.name }} | {{ tailgate.game.stadium }}</p>
     <p>{{ tailgate.user.user_name }}</p>
     <p>{{ tailgate.description }}</p>
-    <router-link to="/">Back to all tailgates</router-link>
+    <router-link to="/tailgates">Back to all tailgates</router-link>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
     };
   },
   created: function () {
-    axios.get("/tailgates/" + this.$route.params.id).then((response) => {
+    axios.get(`/tailgates/${this.$route.params.id}`).then((response) => {
       console.log("tailgate show", response);
       this.tailgate = response.data;
     });

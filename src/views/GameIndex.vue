@@ -1,8 +1,14 @@
 <template>
   <div class="games">
+    <div id="search">
+      <input @keyup.enter="indexGames" type="text" v-model="searchQuery" placeholder="seach for games" />
+    </div>
+
     <div v-for="game in games" :key="game.id">
-      <h3>{{ game.away_team }} at {{ game.home_team }}</h3>
-      <p>{{ game.venue }}</p>
+      <!-- <a :href="`/tailgates`"> -->
+      <h2>{{ game.title }}</h2>
+      <!-- </a> -->
+      <p>{{ game.venue.name }} | {{ game.datetime_local }}</p>
     </div>
   </div>
 </template>
@@ -16,6 +22,7 @@ export default {
   data: function () {
     return {
       games: [],
+      searchQuery: "",
     };
   },
   created: function () {
@@ -23,10 +30,19 @@ export default {
   },
   methods: {
     indexGames: function () {
-      axios.get("/games").then((response) => {
-        console.log("Games index", response);
-        this.games = response.data;
-      });
+      if (this.searchQuery === "") {
+        axios.get("/games?q=ncaa-football").then((response) => {
+          console.log("Games index", response);
+          this.games = response.data;
+        });
+      } else {
+        let formattedSearchQuery = this.searchQuery.toLowerCase().split(" ").join("-");
+
+        axios.get(`/games?q=${formattedSearchQuery}`).then((response) => {
+          console.log("Games index", response);
+          this.games = response.data;
+        });
+      }
     },
   },
 };

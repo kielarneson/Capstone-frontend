@@ -31,7 +31,6 @@ export default {
   },
   created: function () {
     this.indexTailgates();
-    this.indexGames();
   },
   methods: {
     indexTailgates: function () {
