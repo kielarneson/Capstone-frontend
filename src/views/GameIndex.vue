@@ -9,6 +9,7 @@
       <h2>{{ game.title }}</h2>
       <!-- </a> -->
       <p>{{ game.venue.name }} | {{ game.datetime_local }}</p>
+      <!-- <img :src="game.performers[0].image" alt="" /> -->
     </div>
   </div>
 </template>
@@ -36,7 +37,9 @@ export default {
           this.games = response.data;
         });
       } else {
-        let formattedSearchQuery = this.searchQuery.toLowerCase().split(" ").join("-");
+        let formattedSearchQuery = this.searchQuery.toLowerCase().split(" ");
+        formattedSearchQuery.push("football");
+        formattedSearchQuery.join("-");
 
         axios.get(`/games?q=${formattedSearchQuery}`).then((response) => {
           console.log("Games index", response);
