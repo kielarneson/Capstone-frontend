@@ -9,6 +9,8 @@
       |
       <router-link to="/login">Login</router-link>
       |
+      <router-link to="/logout">Logout</router-link>
+      |
       <router-link to="/tailgates">Tailgates</router-link>
       |
       <router-link to="/games">Games</router-link>
