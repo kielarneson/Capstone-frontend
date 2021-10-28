@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Signup from "../views/Signup.vue";
+import Login from "../views/Login.vue";
 import TailgateIndex from "../views/TailgateIndex";
 import TailgateShow from "../views/TailgateShow";
 import GameIndex from "../views/GameIndex";
@@ -23,6 +24,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
   { path: "/signup", name: "Signup", component: Signup },
+  { path: "/login", name: "Login", component: Login },
   { path: "/tailgates", name: "TailgateIndex", component: TailgateIndex },
   { path: "/tailgates/:id", name: "TailgateShow", component: TailgateShow },
   { path: "/games", name: "GameIndex", component: GameIndex },
