@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import Signup from "../views/Signup.vue";
 import TailgateIndex from "../views/TailgateIndex";
 import TailgateShow from "../views/TailgateShow";
 import GameIndex from "../views/GameIndex";
@@ -21,6 +22,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
+  { path: "/signup", name: "Signup", component: Signup },
   { path: "/tailgates", name: "TailgateIndex", component: TailgateIndex },
   { path: "/tailgates/:id", name: "TailgateShow", component: TailgateShow },
   { path: "/games", name: "GameIndex", component: GameIndex },

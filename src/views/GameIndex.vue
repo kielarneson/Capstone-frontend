@@ -1,9 +1,11 @@
 <template>
   <div class="games">
     <div id="search">
-      <input @keyup.enter="indexGames" type="text" v-model="searchQuery" placeholder="seach for games" />
+      <input @keyup.enter="indexGames" type="text" v-model="searchQuery" placeholder="search games by team" />
     </div>
-
+    <div>
+      <h1>Upcoming {{ this.displaySearchQuery }} Games</h1>
+    </div>
     <div v-for="game in games" :key="game.id">
       <!-- <a :href="`/tailgates`"> -->
       <h2>{{ game.title }}</h2>
@@ -24,9 +26,10 @@ export default {
     return {
       games: [],
       searchQuery: "",
+      displaySearchQuery: "",
     };
   },
-  created: function () {
+  mounted: function () {
     this.indexGames();
   },
   methods: {
@@ -35,8 +38,14 @@ export default {
         axios.get("/games?q=ncaa-football").then((response) => {
           console.log("Games index", response);
           this.games = response.data;
+          this.displaySearchQuery = "NCAA Football";
         });
       } else {
+        let displaySearchQueryArray = this.searchQuery.split(" ");
+        let capitalizeSearchQuery = [];
+        displaySearchQueryArray.map((word) => capitalizeSearchQuery.push(word[0].toUpperCase() + word.slice(1)));
+        this.displaySearchQuery = capitalizeSearchQuery.join(" ");
+
         let formattedSearchQuery = this.searchQuery.toLowerCase().split(" ");
         formattedSearchQuery.push("football");
         formattedSearchQuery.join("-");
@@ -44,6 +53,7 @@ export default {
         axios.get(`/games?q=${formattedSearchQuery}`).then((response) => {
           console.log("Games index", response);
           this.games = response.data;
+          this.searchQuery = "";
         });
       }
     },
