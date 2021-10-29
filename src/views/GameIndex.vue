@@ -12,6 +12,14 @@
       <!-- </a> -->
       <p>{{ game.venue.name }} | {{ game.datetime_local }}</p>
       <!-- <img :src="game.performers[0].image" alt="" /> -->
+
+      <div v-for="tailgate in game.tailgates" v-bind:key="tailgate.id">
+        <a :href="`/tailgates/${tailgate.id}`">
+          <h3>{{ tailgate.name }}</h3>
+        </a>
+      </div>
+
+      <a :href="`/tailgates/new?game_api_id=${game.id}`">New tailgate</a>
     </div>
   </div>
 </template>
@@ -25,12 +33,14 @@ export default {
   data: function () {
     return {
       games: [],
+      // tailgates: [],
       searchQuery: "",
       displaySearchQuery: "",
     };
   },
   mounted: function () {
     this.indexGames();
+    // this.indexTailgates();
   },
   methods: {
     indexGames: function () {
@@ -57,6 +67,11 @@ export default {
         });
       }
     },
+    // indexTailgates: function () {
+    //   axios.get("/tailgates").then((response) => {
+    //     this.tailgates = response.data;
+    //   });
+    // },
   },
 };
 </script>

@@ -4,7 +4,8 @@ import Home from "../views/Home.vue";
 import Signup from "../views/Signup.vue";
 import Login from "../views/Login.vue";
 import Logout from "../views/Logout.vue";
-import TailgateIndex from "../views/TailgateIndex";
+import TailgatesIndex from "../views/TailgatesIndex";
+import TailgatesNew from "../views/TailgatesNew";
 import TailgateShow from "../views/TailgateShow";
 import GameIndex from "../views/GameIndex";
 
@@ -27,7 +28,8 @@ const routes = [
   { path: "/signup", name: "Signup", component: Signup },
   { path: "/login", name: "Login", component: Login },
   { path: "/logout", name: "Logout", component: Logout },
-  { path: "/tailgates", name: "TailgateIndex", component: TailgateIndex },
+  { path: "/tailgates", name: "TailgatesIndex", component: TailgatesIndex },
+  { path: "/tailgates/new", name: "TailgatesNew", component: TailgatesNew },
   { path: "/tailgates/:id", name: "TailgateShow", component: TailgateShow },
   { path: "/games", name: "GameIndex", component: GameIndex },
 ];

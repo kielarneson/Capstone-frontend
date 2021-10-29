@@ -4,7 +4,9 @@
     <p>{{ tailgate.game.name }} | {{ tailgate.game.stadium }}</p>
     <p>{{ tailgate.user.user_name }}</p>
     <p>{{ tailgate.description }}</p>
-    <router-link to="/tailgates">Back to all tailgates</router-link>
+    <router-link to="/tailgates">Back to tailgates</router-link>
+    |
+    <router-link to="/games">Back to games</router-link>
   </div>
 </template>
 
