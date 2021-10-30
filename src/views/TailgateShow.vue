@@ -19,6 +19,7 @@
 
     <div v-if="this.current_user.id == tailgate.user_id">
       <button @click="updateTailgate(tailgate)">Update Tailgate</button>
+      <button @click="deleteTailgate(tailgate)">Delete Tailgate</button>
     </div>
 
     <br />
@@ -42,7 +43,6 @@ export default {
     axios.get(`/tailgates/${this.$route.params.id}`).then((response) => {
       console.log("tailgate show", response);
       this.tailgate = response.data;
-      console.log(this.tailgate.user_id);
     });
   },
   methods: {
@@ -57,6 +57,12 @@ export default {
         .catch((error) => {
           console.log("Tailgate update error", error.response);
         });
+    },
+    deleteTailgate: function (tailgate) {
+      axios.delete(`/tailgates/${this.$route.params.id}`).then((response) => {
+        console.log("Tailgate delete", response);
+        this.$router.push("/games");
+      });
     },
   },
 };
