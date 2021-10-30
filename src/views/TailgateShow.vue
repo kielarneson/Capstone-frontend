@@ -1,9 +1,28 @@
 <template>
   <div class="tailgate-show">
-    <h2>{{ tailgate.name }}</h2>
+    <!-- <h2>{{ tailgate.name }}</h2> -->
+    <h2>
+      <input type="text" v-model="tailgate.name" />
+    </h2>
+
     <p>{{ tailgate.game.name }} | {{ tailgate.game.stadium }}</p>
-    <p>{{ tailgate.user.user_name }}</p>
+
+    <a :href="`/users/${tailgate.user.id}`">
+      <p>Host: {{ tailgate.user.user_name }}</p>
+    </a>
+
     <p>{{ tailgate.description }}</p>
+
+    <div v-for="tailgate_user in tailgate.game.tailgate_users" v-bind:key="tailgate_user.id">
+      {{ tailgate_user }}
+    </div>
+
+    <div v-if="this.current_user.id == tailgate.user_id">
+      <button @click="updateTailgate(tailgate)">Update Tailgate</button>
+    </div>
+
+    <br />
+
     <router-link to="/tailgates">Back to tailgates</router-link>
     |
     <router-link to="/games">Back to games</router-link>
@@ -15,15 +34,30 @@ import axios from "axios";
 export default {
   data: function () {
     return {
-      tailgate: { game: {}, user: {} },
+      current_user: { id: localStorage.getItem("user_id") },
+      tailgate: { game: { tailgate_users: { users: {} } }, user: {} },
     };
   },
   created: function () {
     axios.get(`/tailgates/${this.$route.params.id}`).then((response) => {
       console.log("tailgate show", response);
       this.tailgate = response.data;
+      console.log(this.tailgate.user_id);
     });
   },
-  methods: {},
+  methods: {
+    updateTailgate: function (tailgate) {
+      var editTailgateParams = tailgate;
+      axios
+        .patch(`/tailgates/${this.$route.params.id}`, editTailgateParams)
+        .then((response) => {
+          console.log("Tailgate update", response);
+          this.tailgate = {};
+        })
+        .catch((error) => {
+          console.log("Tailgate update error", error.response);
+        });
+    },
+  },
 };
 </script>
