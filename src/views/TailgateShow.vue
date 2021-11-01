@@ -1,29 +1,53 @@
 <template>
   <div class="tailgate-show">
-    <h2>
-      <input type="text" v-model="tailgate.name" />
-    </h2>
+    <div v-if="showNewTailgate">
+      <h2>
+        <input type="text" v-model="tailgate.name" />
+      </h2>
 
-    <p>{{ tailgate.game.name }} | {{ tailgate.game.stadium }}</p>
+      <p>{{ tailgate.game.name }} | {{ tailgate.game.stadium }}</p>
 
-    <a :href="`/users/${tailgate.user.id}`">
-      <p>Host: {{ tailgate.user.user_name }}</p>
-    </a>
+      <a :href="`/users/${tailgate.user.id}`">
+        <p>Host: {{ tailgate.user.user_name }}</p>
+      </a>
 
-    <p>{{ tailgate.description }}</p>
+      <p>{{ tailgate.description }}</p>
 
-    Attending the Tailgate:
-    <div v-for="tailgate_user in tailgate.tailgate_users" v-bind:key="tailgate_user.id">
-      <a :href="`/users/${tailgate_user.user.id}`">{{ tailgate_user.user.user_name }}</a>
+      Attending the Tailgate:
+      <div v-for="tailgate_user in tailgate.tailgate_users" v-bind:key="tailgate_user.id">
+        <a :href="`/users/${tailgate_user.user.id}`">{{ tailgate_user.user.user_name }}</a>
+      </div>
+
+      <div v-if="this.current_user.id == tailgate.user_id">
+        <button @click="updateTailgate(tailgate)">Update Tailgate</button>
+        <button @click="deleteTailgate(tailgate)">Delete Tailgate</button>
+      </div>
+
+      <div v-if="this.current_user.id != tailgate.user_id">
+        <button @click="joinTailgate()">Join Tailgate</button>
+      </div>
     </div>
 
-    <div v-if="this.current_user.id == tailgate.user_id">
-      <button @click="updateTailgate(tailgate)">Update Tailgate</button>
-      <button @click="deleteTailgate(tailgate)">Delete Tailgate</button>
-    </div>
+    <div class="locations-new" v-else>
+      <h1>Input Lodging</h1>
+      <form v-on:submit.prevent="createLocations()">
+        <ul>
+          <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+        </ul>
+        Lodging type:
+        <input type="text" v-model="newLodgingParams.lodging_type" />
+        Lodging name:
+        <input type="text" v-model="newLodgingParams.lodging_name" />
+        Address:
+        <input type="text" v-model="newLodgingParams.address" />
 
-    <div v-if="this.current_user.id != tailgate.user_id">
-      <button @click="joinTailgate()">Join Tailgate</button>
+        <h1>Input Parking</h1>
+        Parking type:
+        <input type="text" v-model="newParkingParams.parking_type" />
+        Address:
+        <input type="text" v-model="newParkingParams.address" />
+        <input type="submit" value="Create" />
+      </form>
     </div>
 
     <br />
@@ -43,6 +67,10 @@ export default {
       current_user: { id: localStorage.getItem("user_id") },
       tailgate: { game: { tailgate_users: { user: {} } }, user: {} },
       newTailgateUserParams: {},
+      newLodgingParams: {},
+      newParkingParams: {},
+      errors: {},
+      showNewTailgate: true,
     };
   },
   created: function () {
@@ -77,9 +105,25 @@ export default {
         tailgate_id: this.tailgate.id,
         game_id: this.tailgate.game_id,
       };
+
       axios.post(`/tailgate_users`, this.newTailgateUserParams).then((response) => {
         console.log("Tailgate Users create", response);
-        // this.$router.push("/");
+        this.showNewTailgate = false;
+      });
+    },
+    createLocations: function () {
+      this.newLodgingParams.user_id = this.current_user.id;
+      this.newLodgingParams.tailgate_id = this.tailgate.id;
+
+      axios.post(`/lodgings`, this.newLodgingParams).then((response) => {
+        console.log("Lodgings create", response);
+      });
+      this.newParkingParams.user_id = this.current_user.id;
+      this.newParkingParams.tailgate_id = this.tailgate.id;
+
+      axios.post(`/parkings`, this.newParkingParams).then((response) => {
+        console.log("Parkings create", response);
+        this.$router.push(`/users/${this.current_user.id}`);
       });
     },
   },

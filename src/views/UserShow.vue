@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-    <h1>{{ user }}</h1>
+    <p>{{ user }}</p>
   </div>
 </template>
 
@@ -12,6 +12,7 @@ export default {
   data: function () {
     return {
       user: {},
+      newLodgingParams: {},
     };
   },
   created: function () {
