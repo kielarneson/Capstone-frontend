@@ -1,6 +1,5 @@
 <template>
   <div class="tailgate-show">
-    <!-- <h2>{{ tailgate.name }}</h2> -->
     <h2>
       <input type="text" v-model="tailgate.name" />
     </h2>
@@ -13,8 +12,9 @@
 
     <p>{{ tailgate.description }}</p>
 
-    <div v-for="tailgate_user in tailgate.game.tailgate_users" v-bind:key="tailgate_user.id">
-      {{ tailgate_user }}
+    Attending the Tailgate:
+    <div v-for="tailgate_user in tailgate.tailgate_users" v-bind:key="tailgate_user.id">
+      <a :href="`/users/${tailgate_user.user.id}`">{{ tailgate_user.user.user_name }}</a>
     </div>
 
     <div v-if="this.current_user.id == tailgate.user_id">
@@ -32,11 +32,12 @@
 
 <script>
 import axios from "axios";
+
 export default {
   data: function () {
     return {
       current_user: { id: localStorage.getItem("user_id") },
-      tailgate: { game: { tailgate_users: { users: {} } }, user: {} },
+      tailgate: { game: { tailgate_users: { user: {} } }, user: {} },
     };
   },
   created: function () {
@@ -61,6 +62,7 @@ export default {
     deleteTailgate: function (tailgate) {
       axios.delete(`/tailgates/${this.$route.params.id}`).then((response) => {
         console.log("Tailgate delete", response);
+        tailgate;
         this.$router.push("/games");
       });
     },

@@ -12,7 +12,13 @@
       <router-link to="/tailgates">Tailgates</router-link>
       |
       <router-link to="/games">Games</router-link>
+
+      <div v-if="user">
+        My Profile:
+        <a :href="`/users/${user.id}`">{{ user.user_name }}</a>
+      </div>
     </div>
+
     <router-view />
   </div>
 </template>
@@ -39,3 +45,35 @@
   color: #42b983;
 }
 </style>
+
+<script>
+import axios from "axios";
+
+export default {
+  data: function () {
+    return {
+      user: {},
+    };
+  },
+  created: function () {
+    axios.get(`/users/${localStorage.getItem("user_id")}`).then((response) => {
+      console.log("Show user", response);
+      this.user = response.data;
+    });
+  },
+  // mounted: function () {
+  //   axios.get(`/users/${localStorage.getItem("user_id")}`).then((response) => {
+  //     console.log("Show user", response);
+  //     this.user = response.data;
+  //   });
+  // },
+  methods: {
+    // showUser: function () {
+    //   axios.get(`/users/${localStorage.getItem("user_id")}`).then((response) => {
+    //     console.log("Show user", response);
+    //     this.user = response.data;
+    //   });
+    // },
+  },
+};
+</script>
