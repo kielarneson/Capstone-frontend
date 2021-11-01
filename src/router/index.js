@@ -7,6 +7,7 @@ import Logout from "../views/Logout.vue";
 import TailgatesIndex from "../views/TailgatesIndex";
 import TailgatesNew from "../views/TailgatesNew";
 import TailgateShow from "../views/TailgateShow";
+import UserShow from "../views/UserShow";
 import GameIndex from "../views/GameIndex";
 
 Vue.use(VueRouter);
@@ -31,6 +32,7 @@ const routes = [
   { path: "/tailgates", name: "TailgatesIndex", component: TailgatesIndex },
   { path: "/tailgates/new", name: "TailgatesNew", component: TailgatesNew },
   { path: "/tailgates/:id", name: "TailgateShow", component: TailgateShow },
+  { path: "/users/:id", name: "UserShow", component: UserShow },
   { path: "/games", name: "GameIndex", component: GameIndex },
 ];
 

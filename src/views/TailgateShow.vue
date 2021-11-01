@@ -79,6 +79,7 @@ export default {
       };
       axios.post(`/tailgate_users`, this.newTailgateUserParams).then((response) => {
         console.log("Tailgate Users create", response);
+        // this.$router.push("/");
       });
     },
   },
