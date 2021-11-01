@@ -22,6 +22,10 @@
       <button @click="deleteTailgate(tailgate)">Delete Tailgate</button>
     </div>
 
+    <div v-if="this.current_user.id != tailgate.user_id">
+      <button @click="joinTailgate()">Join Tailgate</button>
+    </div>
+
     <br />
 
     <router-link to="/tailgates">Back to tailgates</router-link>
@@ -38,6 +42,7 @@ export default {
     return {
       current_user: { id: localStorage.getItem("user_id") },
       tailgate: { game: { tailgate_users: { user: {} } }, user: {} },
+      newTailgateUserParams: {},
     };
   },
   created: function () {
@@ -64,6 +69,16 @@ export default {
         console.log("Tailgate delete", response);
         tailgate;
         this.$router.push("/games");
+      });
+    },
+    joinTailgate: function () {
+      this.newTailgateUserParams = {
+        user_id: this.current_user.id,
+        tailgate_id: this.tailgate.id,
+        game_id: this.tailgate.game_id,
+      };
+      axios.post(`/tailgate_users`, this.newTailgateUserParams).then((response) => {
+        console.log("Tailgate Users create", response);
       });
     },
   },
