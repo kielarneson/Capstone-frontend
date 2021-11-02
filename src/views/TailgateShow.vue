@@ -2,7 +2,8 @@
   <div class="tailgate-show">
     <div v-if="showNewTailgate">
       <h2>
-        <input type="text" v-model="tailgate.name" />
+        <!-- <input type="text" v-model="tailgate.name" /> -->
+        {{ tailgate.name }}
       </h2>
 
       <p>{{ tailgate.game.name }} | {{ tailgate.game.stadium }}</p>
@@ -58,6 +59,8 @@
   </div>
 </template>
 
+<style scoped></style>
+
 <script>
 import axios from "axios";
 
@@ -69,8 +72,8 @@ export default {
       newTailgateUserParams: {},
       newLodgingParams: {},
       newParkingParams: {},
-      errors: {},
       showNewTailgate: true,
+      errors: {},
     };
   },
   created: function () {
