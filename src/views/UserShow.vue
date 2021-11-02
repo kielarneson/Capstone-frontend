@@ -27,7 +27,7 @@ body {
   padding: 0;
 }
 #map {
-  height: 500px;
+  height: 750px;
 }
 </style>
 
@@ -100,7 +100,7 @@ export default {
           const feature = response.body.features[0];
           // Create a marker and add it to the map.
           new mapboxgl.Marker().setLngLat(feature.center).addTo(this.map);
-          this.map.flyTo({ center: feature.center, zoom: 12 });
+          this.map.flyTo({ center: feature.center, zoom: 13 });
         });
     },
   },
