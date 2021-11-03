@@ -6,7 +6,17 @@
         {{ tailgate.name }}
       </h2>
 
-      <p>{{ tailgate.game.name }} | {{ tailgate.game.stadium }}</p>
+      <div v-if="awayTeamRecord.length !== 0 && homeTeamRecord.length !== 0">
+        <p>
+          {{ awayTeamRecord[0].team }} ({{ awayTeamRecord[0].total.wins }}-{{ awayTeamRecord[0].total.losses }}) at
+          {{ homeTeamRecord[0].team }} ({{ homeTeamRecord[0].total.wins }}-{{ homeTeamRecord[0].total.losses }}) |
+          {{ tailgate.game.stadium }}
+        </p>
+      </div>
+
+      <div v-else>
+        <p>{{ tailgate.game.name }} | {{ tailgate.game.stadium }}</p>
+      </div>
 
       <a :href="`/users/${tailgate.user.id}`">
         <p>Host: {{ tailgate.user.user_name }}</p>
@@ -68,20 +78,47 @@ export default {
   data: function () {
     return {
       current_user: { id: localStorage.getItem("user_id") },
-      tailgate: { game: { tailgate_users: { user: {} } }, user: {} },
+      tailgate: { game: { away_team: {}, tailgate_users: { user: {} } }, user: {} },
       newTailgateUserParams: {},
       newLodgingParams: {},
       newParkingParams: {},
+      awayTeamRecord: { team: {} },
+      homeTeamRecord: {},
       showNewTailgate: true,
       errors: {},
     };
   },
   created: function () {
+    // Good example of requests running in sequence and then in parallel
     axios.get(`/tailgates/${this.$route.params.id}`).then((response) => {
       console.log("tailgate show", response);
       this.tailgate = response.data;
+      axios.get(`/teams?q=${this.tailgate.game.home_team}`).then((response) => {
+        console.log("Home team record show", response);
+        this.homeTeamRecord = response.data;
+      });
+      axios.get(`/teams?q=${this.tailgate.game.away_team}`).then((response) => {
+        console.log("Away team record show", response);
+        this.awayTeamRecord = response.data;
+      });
     });
+    // Most readable way of making multiple get requests simultaneously
+    // axios
+    //   .get(`/tailgates/${this.$route.params.id}`)
+    //   .then((response) => {
+    //     console.log("tailgate show", response);
+    //     this.tailgate = response.data;
+    //     return this.tailgate;
+    //   })
+    //   .then((tailgate) => {
+    //     return axios.get(`/teams?q=${tailgate.game.away_team}`);
+    //   })
+    //   .then((response) => {
+    //     console.log("Away team record show", response);
+    //     this.awayTeamRecord = response.data;
+    //   });
   },
+  mounted: function () {},
   methods: {
     updateTailgate: function (tailgate) {
       var editTailgateParams = tailgate;

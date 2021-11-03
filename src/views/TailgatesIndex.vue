@@ -1,6 +1,9 @@
 <template>
   <div class="tailgates">
-    <div v-for="tailgate in tailgates" v-bind:key="tailgate.id">
+    <div>
+      <input type="text" v-model="gameFilter" placeholder="search tailgates by game" />
+    </div>
+    <div v-for="tailgate in filterBy(tailgates, gameFilter, 'game')" v-bind:key="tailgate.id">
       <a :href="`/tailgates/${tailgate.id}`">
         <h2>{{ tailgate.name }}</h2>
       </a>
@@ -23,10 +26,14 @@
 
 <script>
 import axios from "axios";
+import Vue2Filters from "vue2-filters";
+
 export default {
+  mixins: [Vue2Filters.mixin],
   data: function () {
     return {
       tailgates: [],
+      gameFilter: "",
     };
   },
   created: function () {
