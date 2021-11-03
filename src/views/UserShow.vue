@@ -54,7 +54,6 @@ export default {
       mapboxClient: null,
       map: null,
       directions: null,
-      description: "",
     };
   },
   created: function () {},
