@@ -119,11 +119,11 @@ export default {
     axios.get(`/tailgates/${this.$route.params.id}`).then((response) => {
       console.log("tailgate show", response);
       this.tailgate = response.data;
-      axios.get(`/teams?q=${this.tailgate.game.home_team}`).then((response) => {
+      axios.get(`/records?q=${this.tailgate.game.home_team}`).then((response) => {
         console.log("Home team record show", response);
         this.homeTeamRecord = response.data[0];
       });
-      axios.get(`/teams?q=${this.tailgate.game.away_team}`).then((response) => {
+      axios.get(`/records?q=${this.tailgate.game.away_team}`).then((response) => {
         console.log("Away team record show", response);
         this.awayTeamRecord = response.data[0];
       });
@@ -137,7 +137,7 @@ export default {
     //     return this.tailgate;
     //   })
     //   .then((tailgate) => {
-    //     return axios.get(`/teams?q=${tailgate.game.away_team}`);
+    //     return axios.get(`/records?q=${tailgate.game.away_team}`);
     //   })
     //   .then((response) => {
     //     console.log("Away team record show", response);
