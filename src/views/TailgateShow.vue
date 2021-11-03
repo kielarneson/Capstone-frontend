@@ -6,11 +6,19 @@
         {{ tailgate.name }}
       </h2>
 
-      <!-- Display team names and teams records if they are present -->
+      <!-- Display team names and teams records if teams records are present -->
       <div v-if="awayTeamRecord.length !== 0 && homeTeamRecord.length !== 0">
         <p>
           {{ awayTeamRecord.team }} ({{ awayTeamRecord.total.wins }}-{{ awayTeamRecord.total.losses }}) at
-          {{ homeTeamRecord.team }} ({{ homeTeamRecord.total.wins }}-{{ homeTeamRecord.total.losses }}) |
+          {{ homeTeamRecord.team }} ({{ homeTeamRecord.total.wins }}-{{ homeTeamRecord.total.losses }})
+          <br />
+          {{ awayTeamRecord.team }} {{ awayTeamRecord.conference }} record: ({{
+            awayTeamRecord.conferenceGames.wins
+          }}-{{ awayTeamRecord.conferenceGames.losses }}) | {{ homeTeamRecord.team }}
+          {{ homeTeamRecord.conference }} record: ({{ homeTeamRecord.conferenceGames.wins }}-{{
+            homeTeamRecord.conferenceGames.losses
+          }})
+          <br />
           {{ tailgate.game.stadium }}
         </p>
       </div>
@@ -25,7 +33,19 @@
       </a>
 
       <!-- Display tailgate description -->
+      Tailgate information:
       <p>{{ tailgate.description }}</p>
+
+      <!-- Display amenities offered -->
+      Amenities offered:
+      <div class="tailgate-amenities">
+        <p v-if="tailgate.parking_available === true">Parking available</p>
+        <p v-if="tailgate.private_bathroom === true">Private bathroom</p>
+        <p v-if="tailgate.alcohol_allowed === true">Alcohol allowed</p>
+        <p v-if="tailgate.food_provided === true">Food provided</p>
+        <p v-if="tailgate.family_friendly === true">Family friendly</p>
+        <p v-if="tailgate.tv_available === true">Tv available</p>
+      </div>
 
       <!-- Display who is attending this tailgate -->
       Attending the Tailgate:
@@ -88,8 +108,8 @@ export default {
       newTailgateUserParams: {},
       newLodgingParams: {},
       newParkingParams: {},
-      awayTeamRecord: { total: { wins: {} } },
-      homeTeamRecord: { total: { wins: {}, losses: {} } },
+      awayTeamRecord: { total: { wins: {} }, conferenceGames: { wins: {} } },
+      homeTeamRecord: { total: { wins: {}, losses: {} }, conferenceGames: { wins: {} } },
       showNewTailgate: true,
       errors: {},
     };
