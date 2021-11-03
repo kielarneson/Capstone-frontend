@@ -2,43 +2,48 @@
   <div class="tailgate-show">
     <div v-if="showNewTailgate">
       <h2>
-        <!-- <input type="text" v-model="tailgate.name" /> -->
+        <!-- Display tailgate name -->
         {{ tailgate.name }}
       </h2>
 
+      <!-- Display team names and teams records if they are present -->
       <div v-if="awayTeamRecord.length !== 0 && homeTeamRecord.length !== 0">
         <p>
-          {{ awayTeamRecord[0].team }} ({{ awayTeamRecord[0].total.wins }}-{{ awayTeamRecord[0].total.losses }}) at
-          {{ homeTeamRecord[0].team }} ({{ homeTeamRecord[0].total.wins }}-{{ homeTeamRecord[0].total.losses }}) |
+          {{ awayTeamRecord.team }} ({{ awayTeamRecord.total.wins }}-{{ awayTeamRecord.total.losses }}) at
+          {{ homeTeamRecord.team }} ({{ homeTeamRecord.total.wins }}-{{ homeTeamRecord.total.losses }}) |
           {{ tailgate.game.stadium }}
         </p>
       </div>
-
+      <!-- If not present, get game title from tailgate -->
       <div v-else>
         <p>{{ tailgate.game.name }} | {{ tailgate.game.stadium }}</p>
       </div>
 
+      <!-- Display tailgate host and link to profile -->
       <a :href="`/users/${tailgate.user.id}`">
         <p>Host: {{ tailgate.user.user_name }}</p>
       </a>
 
+      <!-- Display tailgate description -->
       <p>{{ tailgate.description }}</p>
 
+      <!-- Display who is attending this tailgate -->
       Attending the Tailgate:
       <div v-for="tailgate_user in tailgate.tailgate_users" v-bind:key="tailgate_user.id">
         <a :href="`/users/${tailgate_user.user.id}`">{{ tailgate_user.user.user_name }}</a>
       </div>
-
+      <!-- If current user created this tailgate allow them to update and delete it -->
       <div v-if="this.current_user.id == tailgate.user_id">
         <button @click="updateTailgate(tailgate)">Update Tailgate</button>
         <button @click="deleteTailgate(tailgate)">Delete Tailgate</button>
       </div>
-
+      <!-- If not allow the user to join the tailgate -->
       <div v-if="this.current_user.id != tailgate.user_id">
         <button @click="joinTailgate()">Join Tailgate</button>
       </div>
     </div>
 
+    <!-- Add lodging and parking information if user has joined the tailgate -->
     <div class="locations-new" v-else>
       <h1>Input Lodging</h1>
       <form v-on:submit.prevent="createLocations()">
@@ -63,6 +68,7 @@
 
     <br />
 
+    <!-- Go back to tailgates index or games index -->
     <router-link to="/tailgates">Back to tailgates</router-link>
     |
     <router-link to="/games">Back to games</router-link>
@@ -78,12 +84,12 @@ export default {
   data: function () {
     return {
       current_user: { id: localStorage.getItem("user_id") },
-      tailgate: { game: { away_team: {}, tailgate_users: { user: {} } }, user: {} },
+      tailgate: { game: { away_team: {}, home_team: {}, tailgate_users: { user: {} } }, user: {} },
       newTailgateUserParams: {},
       newLodgingParams: {},
       newParkingParams: {},
-      awayTeamRecord: { team: {} },
-      homeTeamRecord: {},
+      awayTeamRecord: { total: { wins: {} } },
+      homeTeamRecord: { total: { wins: {}, losses: {} } },
       showNewTailgate: true,
       errors: {},
     };
@@ -95,11 +101,11 @@ export default {
       this.tailgate = response.data;
       axios.get(`/teams?q=${this.tailgate.game.home_team}`).then((response) => {
         console.log("Home team record show", response);
-        this.homeTeamRecord = response.data;
+        this.homeTeamRecord = response.data[0];
       });
       axios.get(`/teams?q=${this.tailgate.game.away_team}`).then((response) => {
         console.log("Away team record show", response);
-        this.awayTeamRecord = response.data;
+        this.awayTeamRecord = response.data[0];
       });
     });
     // Most readable way of making multiple get requests simultaneously
