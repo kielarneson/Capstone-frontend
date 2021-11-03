@@ -4,9 +4,10 @@
     <div v-for="tailgate in userTailgates" v-bind:key="tailgate.id">
       <h1>{{ tailgate.tailgate.name }} | {{ tailgate.game.name }}</h1>
       <h2>Tailgate:</h2>
+      <h3>{{ tailgate.tailgate.name }}</h3>
       <p>{{ tailgate.tailgate.address }}</p>
       <h2>Stadium:</h2>
-      <p>{{ tailgate.game.stadium }}</p>
+      <h3>{{ tailgate.game.stadium }}</h3>
       <p>{{ tailgate.game.address }}</p>
       <div v-for="lodging in userLodgings" v-bind:key="lodging.id">
         <div v-if="lodging.tailgate_id === tailgate.tailgate_id">
@@ -67,6 +68,7 @@ export default {
           this.addMarkerFromAddress(this.userTailgates[0].game.stadium);
           // My lodging
           this.addMarkerFromAddress(this.userLodgings[0].address);
+          // My Parking
         });
       });
     });
@@ -77,7 +79,7 @@ export default {
       this.mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
       this.map = new mapboxgl.Map({
         container: "map", // container ID
-        style: "mapbox://styles/mapbox/streets-v11", // style URL
+        style: "mapbox://styles/mapbox/satellite-streets-v11", // style URL
         center: [-87.62, 41.88], // starting position [lng, lat]
         zoom: 9, // starting zoom
       });
@@ -100,7 +102,7 @@ export default {
           const feature = response.body.features[0];
           // Create a marker and add it to the map.
           new mapboxgl.Marker().setLngLat(feature.center).addTo(this.map);
-          this.map.flyTo({ center: feature.center, zoom: 13 });
+          this.map.flyTo({ center: feature.center, zoom: 12 });
         });
     },
   },
