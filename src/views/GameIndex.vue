@@ -11,13 +11,15 @@
       <h2>{{ game.title }}</h2>
       <!-- </a> -->
       <p>{{ game.venue.name }} | {{ game.datetime_local }}</p>
-      <!-- <img :src="game.performers[0].image" alt="" /> -->
+      <img :src="game.performers[0].image" alt="" />
 
       <div v-for="tailgate in game.tailgates" v-bind:key="tailgate.id">
         <a :href="`/tailgates/${tailgate.id}`">
           <h3>{{ tailgate.name }}</h3>
         </a>
       </div>
+
+      <br />
 
       <a :href="`/tailgates/new?game_api_id=${game.id}`">New tailgate</a>
     </div>

@@ -54,6 +54,7 @@ export default {
       mapboxClient: null,
       map: null,
       directions: null,
+      description: "",
     };
   },
   created: function () {},
@@ -73,13 +74,16 @@ export default {
 
             this.setupMap();
             // Stadium
-            this.addMarkerFromAddress(this.userTailgatesAttended[0].game.stadium);
+            this.addMarkerFromAddress("Stadium", this.userTailgatesAttended[0].game.stadium);
             // My lodging
-            this.addMarkerFromAddress(this.userLodgings[0].address);
+            this.addMarkerFromAddress("Lodging", this.userLodgings[0].address);
             // My Parking
-            this.addMarkerFromAddress(this.userParkings[0].address);
+            this.addMarkerFromAddress("Parking", this.userParkings[0].address);
             // My tailgate address
-            this.addMarkerFromAddress(this.userTailgatesAttended[0].tailgate.address);
+            this.addMarkerFromAddress(
+              this.userTailgatesAttended[0].tailgate.name,
+              this.userTailgatesAttended[0].tailgate.address
+            );
           });
         });
       });
@@ -107,7 +111,7 @@ export default {
       console.log(this.map);
     },
 
-    addMarkerFromAddress: function (address) {
+    addMarkerFromAddress: function (description, address) {
       this.mapboxClient.geocoding
         .forwardGeocode({
           query: address,
@@ -123,8 +127,8 @@ export default {
           }
           const feature = response.body.features[0];
           // Create a marker and add it to the map.
-          new mapboxgl.Marker().setLngLat(feature.center).addTo(this.map);
-          this.map.flyTo({ center: feature.center, zoom: 12.5 });
+          new mapboxgl.Popup().setLngLat(feature.center).setHTML(description).addTo(this.map);
+          this.map.flyTo({ center: feature.center, zoom: 12 });
         });
     },
   },
