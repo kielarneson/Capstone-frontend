@@ -80,10 +80,7 @@ export default {
             // My Parking
             this.addMarkerFromAddress("Parking", this.userParkings[0].address);
             // My tailgate address
-            this.addMarkerFromAddress(
-              this.userTailgatesAttended[0].tailgate.name,
-              this.userTailgatesAttended[0].tailgate.address
-            );
+            this.addMarkerFromAddress("Tailgate", this.userTailgatesAttended[0].tailgate.address);
           });
         });
       });
@@ -125,9 +122,13 @@ export default {
             console.error(response);
             return;
           }
+
           const feature = response.body.features[0];
           // Create a marker and add it to the map.
-          new mapboxgl.Popup().setLngLat(feature.center).setHTML(description).addTo(this.map);
+          new mapboxgl.Popup({ closeButton: false, closeOnClick: false })
+            .setLngLat(feature.center)
+            .setHTML(description)
+            .addTo(this.map);
           this.map.flyTo({ center: feature.center, zoom: 12 });
         });
     },
