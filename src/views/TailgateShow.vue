@@ -20,6 +20,10 @@
           homeTeamRecord.conferenceGames.wins
         }}-{{ homeTeamRecord.conferenceGames.losses }})
       </div>
+      <!-- If not present, get game title from tailgate -->
+      <div v-else>
+        <p>{{ tailgate.game.name }} | {{ tailgate.game.stadium }}</p>
+      </div>
       <!-- Display respective teams wins since 1980 if teams have played -->
       <div v-if="historicalMatchupRecords.team1Wins !== 0 && historicalMatchupRecords.team2Wins !== 0">
         Matchup wins since 1980:
@@ -33,10 +37,6 @@
         {{ historicalMatchupRecords.games.at(-1).homeTeam }} ({{ historicalMatchupRecords.games.at(-1).homeScore }}) |
         {{ historicalMatchupRecords.games.at(-1).date }}
         <br />
-      </div>
-      <!-- If not present, get game title from tailgate -->
-      <div v-else>
-        <p>{{ tailgate.game.name }} | {{ tailgate.game.stadium }}</p>
       </div>
 
       <!-- Display tailgate host and link to profile -->
@@ -120,7 +120,7 @@ export default {
       newTailgateUserParams: {},
       newLodgingParams: {},
       newParkingParams: {},
-      awayTeamRecord: { total: { wins: {} }, conferenceGames: { wins: {} } },
+      awayTeamRecord: { total: { wins: {}, losses: {} }, conferenceGames: { wins: {} } },
       homeTeamRecord: { total: { wins: {}, losses: {} }, conferenceGames: { wins: {} } },
       historicalMatchupRecords: {},
       showNewTailgate: true,

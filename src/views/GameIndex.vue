@@ -80,11 +80,6 @@ export default {
         });
       }
     },
-    // indexTailgates: function () {
-    //   axios.get("/tailgates").then((response) => {
-    //     this.tailgates = response.data;
-    //   });
-    // },
   },
 };
 </script>
