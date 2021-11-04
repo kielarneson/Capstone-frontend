@@ -1,11 +1,46 @@
 <template>
   <div class="user">
     <h1>Tailgates attending:</h1>
+
     <div v-for="tailgateAttended in userTailgatesAttended" v-bind:key="tailgateAttended.id">
-      <h1>{{ tailgateAttended.tailgate.name }} | {{ tailgateAttended.game.name }}</h1>
-      <h2>Tailgate:</h2>
-      <h3>{{ tailgateAttended.tailgate.name }}</h3>
+      <h1>{{ tailgateAttended.tailgate.name }}</h1>
+      <h3>{{ tailgateAttended.game.start_time_conversion.slice(1) }}</h3>
       <p>{{ tailgateAttended.tailgate.address }}</p>
+      <h2>
+        {{ tailgateAttended.awayTeamRecord.team }} ({{ tailgateAttended.awayTeamRecord.total.wins }}-{{
+          tailgateAttended.awayTeamRecord.total.losses
+        }}) at {{ tailgateAttended.homeTeamRecord.team }} ({{ tailgateAttended.homeTeamRecord.total.wins }}-{{
+          tailgateAttended.homeTeamRecord.total.losses
+        }})
+      </h2>
+      <p>
+        {{ tailgateAttended.awayTeamRecord.team }} {{ tailgateAttended.awayTeamRecord.conference }} record: ({{
+          tailgateAttended.awayTeamRecord.conferenceGames.wins
+        }}-{{ tailgateAttended.awayTeamRecord.conferenceGames.losses }}) | {{ tailgateAttended.homeTeamRecord.team }}
+        {{ tailgateAttended.homeTeamRecord.conference }} record: ({{
+          tailgateAttended.homeTeamRecord.conferenceGames.wins
+        }}-{{ tailgateAttended.homeTeamRecord.conferenceGames.losses }})
+      </p>
+      <p>
+        Matchup wins since 1980:
+        {{ tailgateAttended.historicalMatchupRecords.team1 }}:
+        {{ tailgateAttended.historicalMatchupRecords.team1Wins }} |
+        {{ tailgateAttended.historicalMatchupRecords.team2 }}: {{ tailgateAttended.historicalMatchupRecords.team2Wins }}
+      </p>
+      <p>
+        Last matchup outcome:
+        {{ tailgateAttended.historicalMatchupRecords.games.at(-1).awayTeam }} ({{
+          tailgateAttended.historicalMatchupRecords.games.at(-1).awayScore
+        }}) at {{ tailgateAttended.historicalMatchupRecords.games.at(-1).homeTeam }} ({{
+          tailgateAttended.historicalMatchupRecords.games.at(-1).homeScore
+        }}) |
+        {{ tailgateAttended.historicalMatchupRecords.games.at(-1).season }}
+      </p>
+      Betting:
+      <p>
+        {{ tailgateAttended.bets.lines[0].formattedSpread }} | Total: {{ tailgateAttended.bets.lines[0].overUnder }}
+      </p>
+
       <h2>Stadium:</h2>
       <h3>{{ tailgateAttended.game.stadium }}</h3>
       <p>{{ tailgateAttended.game.address }}</p>
@@ -50,6 +85,10 @@ export default {
       userTailgatesAttended: {},
       userLodgings: {},
       userParkings: {},
+      // awayTeamRecord: { total: { wins: {}, losses: {} }, conferenceGames: { wins: {} } },
+      // homeTeamRecord: { total: { wins: {}, losses: {} }, conferenceGames: { wins: {} } },
+      // historicalMatchupRecords: {},
+      // bets: {},
       place: null,
       mapboxClient: null,
       map: null,
@@ -67,11 +106,21 @@ export default {
         axios.get("/parkings").then((response) => {
           console.log("Parkings Attending", response);
           this.userParkings = response.data;
+
           axios.get("/tailgate_users").then((response) => {
             console.log("Tailgates Attending", response);
-            this.userTailgatesAttended = response.data;
+            this.userTailgatesAttended = response.data.map((userTailgate) => {
+              return {
+                ...userTailgate,
+                awayTeamRecord: { total: {}, conferenceGames: {} },
+                homeTeamRecord: { total: {}, conferenceGames: {} },
+                historicalMatchupRecords: { games: [{}] },
+                bets: { lines: [{}] },
+              };
+            });
 
             this.setupMap();
+
             // Stadium
             this.addMarkerFromAddress("Stadium", this.userTailgatesAttended[0].game.stadium);
             // My lodging
@@ -80,6 +129,31 @@ export default {
             this.addMarkerFromAddress("Parking", this.userParkings[0].address);
             // My tailgate address
             this.addMarkerFromAddress("Tailgate", this.userTailgatesAttended[0].tailgate.address);
+
+            this.userTailgatesAttended.forEach((userTailgate) => {
+              axios.get(`/records?q=${userTailgate.game.home_team}`).then((response) => {
+                console.log("Home team record index", response);
+                userTailgate.homeTeamRecord = response.data[0];
+              });
+              axios.get(`/records?q=${userTailgate.game.away_team}`).then((response) => {
+                console.log("Away team record index", response);
+                userTailgate.awayTeamRecord = response.data[0];
+              });
+              axios
+                .get(
+                  `/historical_matchup_records?team1=${userTailgate.game.away_team}&team2=${userTailgate.game.home_team}`
+                )
+                .then((response) => {
+                  console.log("Historical matchup records index", response);
+                  userTailgate.historicalMatchupRecords = response.data;
+                });
+              axios
+                .get(`/bets?away=${userTailgate.game.away_team}&home=${userTailgate.game.home_team}`)
+                .then((response) => {
+                  console.log("Bets show", response.data);
+                  userTailgate.bets = response.data[0];
+                });
+            });
           });
         });
       });
