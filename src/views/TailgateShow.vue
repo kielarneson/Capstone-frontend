@@ -35,9 +35,11 @@
         Last matchup outcome:
         {{ historicalMatchupRecords.games.at(-1).awayTeam }} ({{ historicalMatchupRecords.games.at(-1).awayScore }}) at
         {{ historicalMatchupRecords.games.at(-1).homeTeam }} ({{ historicalMatchupRecords.games.at(-1).homeScore }}) |
-        {{ historicalMatchupRecords.games.at(-1).date }}
+        {{ historicalMatchupRecords.games.at(-1).season }}
         <br />
       </div>
+
+      <div>Spread: {{ bets.lines[0].formattedSpread }} | Total: {{ bets.lines[0].overUnder }}</div>
 
       <!-- Display tailgate host and link to profile -->
       <a :href="`/users/${tailgate.user.id}`">
@@ -123,6 +125,7 @@ export default {
       awayTeamRecord: { total: { wins: {}, losses: {} }, conferenceGames: { wins: {} } },
       homeTeamRecord: { total: { wins: {}, losses: {} }, conferenceGames: { wins: {} } },
       historicalMatchupRecords: {},
+      bets: {},
       showNewTailgate: true,
       errors: {},
     };
@@ -146,6 +149,10 @@ export default {
           console.log("Historical matchup records index", response);
           this.historicalMatchupRecords = response.data;
         });
+      axios.get(`/bets?away=${this.tailgate.game.away_team}&home=${this.tailgate.game.home_team}`).then((response) => {
+        console.log("Bets show", response.data[0]);
+        this.bets = response.data[0];
+      });
     });
     // Most readable way of making multiple get requests simultaneously
     // axios
