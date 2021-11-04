@@ -2,61 +2,53 @@
   <div class="user">
     <h1>Tailgates attending:</h1>
 
-    <div v-for="tailgateAttended in userTailgatesAttended" v-bind:key="tailgateAttended.id">
-      <h1>{{ tailgateAttended.tailgate.name }}</h1>
-      <h3>{{ tailgateAttended.game.start_time_conversion.slice(1) }}</h3>
-      <p>{{ tailgateAttended.tailgate.address }}</p>
+    <div v-for="userTailgate in userTailgatesAttended" v-bind:key="userTailgate.id">
+      <h1>{{ userTailgate.tailgate.name }}</h1>
+      <h3>{{ userTailgate.game.start_time_conversion.slice(1) }}</h3>
+      <p>{{ userTailgate.tailgate.address }}</p>
+      <button @click="setCurrentUserTailgate(userTailgate)">More info</button>
+    </div>
+
+    <div v-if="currentUserTailgate">
       <h2>
-        {{ tailgateAttended.awayTeamRecord.team }} ({{ tailgateAttended.awayTeamRecord.total.wins }}-{{
-          tailgateAttended.awayTeamRecord.total.losses
-        }}) at {{ tailgateAttended.homeTeamRecord.team }} ({{ tailgateAttended.homeTeamRecord.total.wins }}-{{
-          tailgateAttended.homeTeamRecord.total.losses
+        {{ currentUserTailgate.awayTeamRecord.team }} ({{ currentUserTailgate.awayTeamRecord.total.wins }}-{{
+          currentUserTailgate.awayTeamRecord.total.losses
+        }}) at {{ currentUserTailgate.homeTeamRecord.team }} ({{ currentUserTailgate.homeTeamRecord.total.wins }}-{{
+          currentUserTailgate.homeTeamRecord.total.losses
         }})
       </h2>
       <p>
-        {{ tailgateAttended.awayTeamRecord.team }} {{ tailgateAttended.awayTeamRecord.conference }} record: ({{
-          tailgateAttended.awayTeamRecord.conferenceGames.wins
-        }}-{{ tailgateAttended.awayTeamRecord.conferenceGames.losses }}) | {{ tailgateAttended.homeTeamRecord.team }}
-        {{ tailgateAttended.homeTeamRecord.conference }} record: ({{
-          tailgateAttended.homeTeamRecord.conferenceGames.wins
-        }}-{{ tailgateAttended.homeTeamRecord.conferenceGames.losses }})
+        {{ currentUserTailgate.awayTeamRecord.team }} {{ currentUserTailgate.awayTeamRecord.conference }} record: ({{
+          currentUserTailgate.awayTeamRecord.conferenceGames.wins
+        }}-{{ currentUserTailgate.awayTeamRecord.conferenceGames.losses }}) |
+        {{ currentUserTailgate.homeTeamRecord.team }} {{ currentUserTailgate.homeTeamRecord.conference }} record: ({{
+          currentUserTailgate.homeTeamRecord.conferenceGames.wins
+        }}-{{ currentUserTailgate.homeTeamRecord.conferenceGames.losses }})
       </p>
       <p>
         Matchup wins since 1980:
-        {{ tailgateAttended.historicalMatchupRecords.team1 }}:
-        {{ tailgateAttended.historicalMatchupRecords.team1Wins }} |
-        {{ tailgateAttended.historicalMatchupRecords.team2 }}: {{ tailgateAttended.historicalMatchupRecords.team2Wins }}
+        {{ currentUserTailgate.historicalMatchupRecords.team1 }}:
+        {{ currentUserTailgate.historicalMatchupRecords.team1Wins }} |
+        {{ currentUserTailgate.historicalMatchupRecords.team2 }}:
+        {{ currentUserTailgate.historicalMatchupRecords.team2Wins }}
       </p>
       <p>
         Last matchup outcome:
-        {{ tailgateAttended.historicalMatchupRecords.games.at(-1).awayTeam }} ({{
-          tailgateAttended.historicalMatchupRecords.games.at(-1).awayScore
-        }}) at {{ tailgateAttended.historicalMatchupRecords.games.at(-1).homeTeam }} ({{
-          tailgateAttended.historicalMatchupRecords.games.at(-1).homeScore
+        {{ currentUserTailgate.historicalMatchupRecords.games.at(-1).awayTeam }} ({{
+          currentUserTailgate.historicalMatchupRecords.games.at(-1).awayScore
+        }}) at {{ currentUserTailgate.historicalMatchupRecords.games.at(-1).homeTeam }} ({{
+          currentUserTailgate.historicalMatchupRecords.games.at(-1).homeScore
         }}) |
-        {{ tailgateAttended.historicalMatchupRecords.games.at(-1).season }}
+        {{ currentUserTailgate.historicalMatchupRecords.games.at(-1).season }}
       </p>
-      Betting:
-      <p>
-        {{ tailgateAttended.bets.lines[0].formattedSpread }} | Total: {{ tailgateAttended.bets.lines[0].overUnder }}
+      <p v-if="currentUserTailgate.bets.lines[0].formattedSpread.length !== 0">
+        {{ currentUserTailgate.bets.lines[0].formattedSpread }} | Total:
+        {{ currentUserTailgate.bets.lines[0].overUnder }}
       </p>
 
       <h2>Stadium:</h2>
-      <h3>{{ tailgateAttended.game.stadium }}</h3>
-      <p>{{ tailgateAttended.game.address }}</p>
-      <div v-for="lodging in userLodgings" v-bind:key="lodging.id">
-        <div v-if="lodging.tailgate_id === tailgateAttended.tailgate_id">
-          <h2>Lodging:</h2>
-          <h3>{{ lodging.lodging_name }}</h3>
-          <p>{{ lodging.address }}</p>
-        </div>
-      </div>
-      <div v-for="parking in userParkings" v-bind:key="parking.id">
-        <div v-if="parking.tailgate_id === tailgateAttended.tailgate_id">
-          <h2>Parking:</h2>
-          <p>{{ parking.address }}</p>
-        </div>
-      </div>
+      <h3>{{ currentUserTailgate.game.stadium }}</h3>
+      <p>{{ currentUserTailgate.game.address }}</p>
     </div>
 
     <div id="map"></div>
@@ -85,10 +77,23 @@ export default {
       userTailgatesAttended: {},
       userLodgings: {},
       userParkings: {},
-      // awayTeamRecord: { total: { wins: {}, losses: {} }, conferenceGames: { wins: {} } },
-      // homeTeamRecord: { total: { wins: {}, losses: {} }, conferenceGames: { wins: {} } },
-      // historicalMatchupRecords: {},
-      // bets: {},
+      currentUserTailgate: {
+        awayTeamRecord: {
+          team: {},
+          conference: {},
+          conferenceGames: { wins: {}, losses: {} },
+          total: { wins: {}, losses: {} },
+        },
+        homeTeamRecord: {
+          team: {},
+          conference: {},
+          conferenceGames: { wins: {}, losses: {} },
+          total: { wins: {}, losses: {} },
+        },
+        historicalMatchupRecords: { team1: {}, team1Wins: {}, team2: {}, team2Wins: {}, games: [{}] },
+        bets: { lines: [{ formattedSpread: {}, overUnder: {} }] },
+        game: { stadium: {}, address: {} },
+      },
       place: null,
       mapboxClient: null,
       map: null,
@@ -119,17 +124,6 @@ export default {
               };
             });
 
-            this.setupMap();
-
-            // Stadium
-            this.addMarkerFromAddress("Stadium", this.userTailgatesAttended[0].game.stadium);
-            // My lodging
-            this.addMarkerFromAddress("Lodging", this.userLodgings[0].address);
-            // My Parking
-            this.addMarkerFromAddress("Parking", this.userParkings[0].address);
-            // My tailgate address
-            this.addMarkerFromAddress("Tailgate", this.userTailgatesAttended[0].tailgate.address);
-
             this.userTailgatesAttended.forEach((userTailgate) => {
               axios.get(`/records?q=${userTailgate.game.home_team}`).then((response) => {
                 console.log("Home team record index", response);
@@ -152,6 +146,17 @@ export default {
                 .then((response) => {
                   console.log("Bets show", response.data);
                   userTailgate.bets = response.data[0];
+
+                  // this.setupMap();
+
+                  // // Stadium
+                  // this.addMarkerFromAddress("Stadium", this.userTailgatesAttended.game.stadium);
+                  // // My lodging
+                  // this.addMarkerFromAddress("Lodging", this.userLodgings.address);
+                  // // My Parking
+                  // this.addMarkerFromAddress("Parking", this.userParkings.address);
+                  // // My tailgate address
+                  // this.addMarkerFromAddress("Tailgate", this.userTailgatesAttended.tailgate.address);
                 });
             });
           });
@@ -160,6 +165,10 @@ export default {
     });
   },
   methods: {
+    setCurrentUserTailgate: function (userTailgatesAttended) {
+      this.currentUserTailgate = userTailgatesAttended;
+      console.log("current user tailgate", this.currentUserTailgate);
+    },
     setupMap: function () {
       mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_API_KEY;
       this.mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
@@ -175,8 +184,9 @@ export default {
       });
       this.map.addControl(this.directions, "top-left");
 
-      this.directions.setOrigin(this.userTailgatesAttended[0].tailgate.address);
-      this.directions.setDestination(this.userTailgatesAttended[0].game.address);
+      // Changed these
+      this.directions.setOrigin(this.currentUserTailgate.tailgate.address);
+      this.directions.setDestination(this.currentUserTailgate.game.address);
 
       console.log(this.map);
     },
