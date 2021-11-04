@@ -1,10 +1,12 @@
 <template>
   <div class="games">
+    <!-- Display CFP top 25 -->
     College Football Selection Committee Top 25:
     <div class="team-rankings" v-for="team in rankings" v-bind:key="team.rank">
       {{ team.rank }}. {{ team.school }} ({{ team.conference }})
     </div>
     <br />
+    <!-- Search for games in seat geek API -->
     <div id="search">
       <input @keyup.enter="indexGames" type="text" v-model="searchQuery" placeholder="search games by team" />
     </div>
@@ -18,6 +20,7 @@
       <p>{{ game.venue.name }} | {{ game.datetime_local }}</p>
       <img :src="game.performers[0].image" alt="" />
 
+      <!-- Allow user to create tailgate for specific game -->
       <div v-for="tailgate in game.tailgates" v-bind:key="tailgate.id">
         <a :href="`/tailgates/${tailgate.id}`">
           <h3>{{ tailgate.name }}</h3>
@@ -26,6 +29,7 @@
 
       <br />
 
+      <!-- Move user to new game page to enter tailgate specific information -->
       <a :href="`/tailgates/new?game_api_id=${game.id}`">New tailgate</a>
     </div>
   </div>
@@ -40,10 +44,9 @@ export default {
   data: function () {
     return {
       games: [],
-      // tailgates: [],
+      rankings: [],
       searchQuery: "",
       displaySearchQuery: "",
-      rankings: [],
     };
   },
   created: function () {},
