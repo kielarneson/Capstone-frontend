@@ -8,9 +8,12 @@
 
       <!-- Display team names and teams records if teams records are present -->
       <div v-if="awayTeamRecord.length !== 0 && homeTeamRecord.length !== 0">
-        {{ awayTeamRecord.team }} ({{ awayTeamRecord.total.wins }}-{{ awayTeamRecord.total.losses }}) at
-        {{ homeTeamRecord.team }} ({{ homeTeamRecord.total.wins }}-{{ homeTeamRecord.total.losses }})
-        <br />
+        <p>
+          {{ awayTeamRecord.team }} ({{ awayTeamRecord.total.wins }}-{{ awayTeamRecord.total.losses }}) at
+          {{ homeTeamRecord.team }} ({{ homeTeamRecord.total.wins }}-{{ homeTeamRecord.total.losses }})
+          <br />
+          {{ tailgate.game.stadium }}
+        </p>
         {{ awayTeamRecord.team }} {{ awayTeamRecord.conference }} record: ({{ awayTeamRecord.conferenceGames.wins }}-{{
           awayTeamRecord.conferenceGames.losses
         }}) | {{ homeTeamRecord.team }} {{ homeTeamRecord.conference }} record: ({{

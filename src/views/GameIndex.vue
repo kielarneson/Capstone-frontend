@@ -1,5 +1,10 @@
 <template>
   <div class="games">
+    College Football Selection Committee Top 25:
+    <div class="team-rankings" v-for="team in rankings" v-bind:key="team.rank">
+      {{ team.rank }}. {{ team.school }} ({{ team.conference }})
+    </div>
+    <br />
     <div id="search">
       <input @keyup.enter="indexGames" type="text" v-model="searchQuery" placeholder="search games by team" />
     </div>
@@ -38,11 +43,17 @@ export default {
       // tailgates: [],
       searchQuery: "",
       displaySearchQuery: "",
+      rankings: [],
     };
   },
+  created: function () {},
   mounted: function () {
     this.indexGames();
     // this.indexTailgates();
+    axios.get("/rankings").then((response) => {
+      console.log("Rankings index", response);
+      this.rankings = response.data.at(-1).polls[3].ranks;
+    });
   },
   methods: {
     indexGames: function () {
