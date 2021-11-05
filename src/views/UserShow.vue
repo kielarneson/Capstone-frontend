@@ -159,32 +159,11 @@ export default {
           userTailgate.bets = response.data[0];
         });
       });
-
-      // need to handle tailgate_user_id params for the backend
-
-      // axios.get("/lodgings").then((response) => {
-      //   console.log("Lodgings Attending", response);
-      //   this.userLodgings = response.data;
-      //   axios.get("/parkings").then((response) => {
-      //     console.log("Parkings Attending", response);
-      //     this.userParkings = response.data;
-
-      // axios.get("/tailgate_users").then((response) => {
-      //   console.log("Tailgates Attending", response);
-      //   this.userTailgatesAttended = response.data.map((userTailgate) => {
-      //     return {
-      //       ...userTailgate,
-      //       awayTeamRecord: { total: {}, conferenceGames: {} },
-      //       homeTeamRecord: { total: {}, conferenceGames: {} },
-      //       historicalMatchupRecords: { games: [{}] },
-      //       bets: { lines: [{}] },
-      //     };
-      //   });
     });
   },
   methods: {
-    setCurrentUserTailgate: function (userTailgatesAttended) {
-      this.currentUserTailgate = userTailgatesAttended;
+    setCurrentUserTailgate: function (userTailgate) {
+      this.currentUserTailgate = userTailgate;
       this.currentUserTailgate.show = true;
 
       this.setupMap();

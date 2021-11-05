@@ -6,41 +6,6 @@
         {{ tailgate.name }}
       </h2>
 
-      <!-- Display team names and teams records if teams records are present -->
-      <!-- <div v-if="awayTeamRecord.length !== 0 && homeTeamRecord.length !== 0">
-        <p>
-          {{ awayTeamRecord.team }} ({{ awayTeamRecord.total.wins }}-{{ awayTeamRecord.total.losses }}) at
-          {{ homeTeamRecord.team }} ({{ homeTeamRecord.total.wins }}-{{ homeTeamRecord.total.losses }})
-          <br />
-          {{ tailgate.game.stadium }}
-        </p>
-        {{ awayTeamRecord.team }} {{ awayTeamRecord.conference }} record: ({{ awayTeamRecord.conferenceGames.wins }}-{{
-          awayTeamRecord.conferenceGames.losses
-        }}) | {{ homeTeamRecord.team }} {{ homeTeamRecord.conference }} record: ({{
-          homeTeamRecord.conferenceGames.wins
-        }}-{{ homeTeamRecord.conferenceGames.losses }})
-      </div> -->
-      <!-- If not present, get game title from tailgate -->
-      <!-- <div v-else>
-        <p>{{ tailgate.game.name }} | {{ tailgate.game.stadium }}</p>
-      </div> -->
-      <!-- Display respective teams wins since 1980 if teams have played -->
-      <!-- <div v-if="historicalMatchupRecords.team1Wins !== 0 && historicalMatchupRecords.team2Wins !== 0">
-        Matchup wins since 1980:
-        {{ historicalMatchupRecords.team1 }}: {{ historicalMatchupRecords.team1Wins }} |
-        {{ historicalMatchupRecords.team2 }}: {{ historicalMatchupRecords.team2Wins }}
-      </div> -->
-      <!-- Display last outcome if teams have played -->
-      <!-- <div v-if="historicalMatchupRecords.games.length !== 0">
-        Last matchup outcome:
-        {{ historicalMatchupRecords.games.at(-1).awayTeam }} ({{ historicalMatchupRecords.games.at(-1).awayScore }}) at
-        {{ historicalMatchupRecords.games.at(-1).homeTeam }} ({{ historicalMatchupRecords.games.at(-1).homeScore }}) |
-        {{ historicalMatchupRecords.games.at(-1).season }}
-        <br />
-      </div> -->
-
-      <!-- <div>Spread: {{ bets.lines[0].formattedSpread }} | Total: {{ bets.lines[0].overUnder }}</div> -->
-
       <!-- Display tailgate host and link to profile -->
       <a :href="`/users/${tailgate.user.id}`">
         <p>Host: {{ tailgate.user.user_name }}</p>
@@ -136,40 +101,7 @@ export default {
     axios.get(`/tailgates/${this.$route.params.id}`).then((response) => {
       console.log("tailgate show", response);
       this.tailgate = response.data;
-      // axios.get(`/records?q=${this.tailgate.game.home_team}`).then((response) => {
-      //   console.log("Home team record index", response);
-      //   this.homeTeamRecord = response.data[0];
-      // });
-      // axios.get(`/records?q=${this.tailgate.game.away_team}`).then((response) => {
-      //   console.log("Away team record index", response);
-      //   this.awayTeamRecord = response.data[0];
-      // });
-      // axios
-      //   .get(`/historical_matchup_records?team1=${this.tailgate.game.away_team}&team2=${this.tailgate.game.home_team}`)
-      //   .then((response) => {
-      //     console.log("Historical matchup records index", response);
-      //     this.historicalMatchupRecords = response.data;
-      //   });
-      // axios.get(`/bets?away=${this.tailgate.game.away_team}&home=${this.tailgate.game.home_team}`).then((response) => {
-      //   console.log("Bets show", response.data);
-      //   this.bets = response.data[0];
-      // });
     });
-    // Most readable way of making multiple get requests simultaneously
-    // axios
-    //   .get(`/tailgates/${this.$route.params.id}`)
-    //   .then((response) => {
-    //     console.log("tailgate show", response);
-    //     this.tailgate = response.data;
-    //     return this.tailgate;
-    //   })
-    //   .then((tailgate) => {
-    //     return axios.get(`/records?q=${tailgate.game.away_team}`);
-    //   })
-    //   .then((response) => {
-    //     console.log("Away team record show", response);
-    //     this.awayTeamRecord = response.data;
-    //   });
   },
   mounted: function () {},
   methods: {
