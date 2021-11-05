@@ -122,6 +122,7 @@ export default {
       newTailgateUserParams: {},
       newLodgingParams: {},
       newParkingParams: {},
+      tailgateUserId: {},
       // awayTeamRecord: { total: { wins: {}, losses: {} }, conferenceGames: { wins: {} } },
       // homeTeamRecord: { total: { wins: {}, losses: {} }, conferenceGames: { wins: {} } },
       // historicalMatchupRecords: {},
@@ -201,17 +202,16 @@ export default {
       axios.post(`/tailgate_users`, this.newTailgateUserParams).then((response) => {
         console.log("Tailgate Users create", response);
         this.showNewTailgate = false;
+        this.tailgateUserId = response.data.tailgate_user.id;
       });
     },
     createLocations: function () {
-      this.newLodgingParams.user_id = this.current_user.id;
-      this.newLodgingParams.tailgate_id = this.tailgate.id;
+      this.newLodgingParams.tailgate_user_id = this.tailgateUserId;
 
       axios.post(`/lodgings`, this.newLodgingParams).then((response) => {
         console.log("Lodgings create", response);
       });
-      this.newParkingParams.user_id = this.current_user.id;
-      this.newParkingParams.tailgate_id = this.tailgate.id;
+      this.newParkingParams.tailgate_user_id = this.tailgateUserId;
 
       axios.post(`/parkings`, this.newParkingParams).then((response) => {
         console.log("Parkings create", response);
