@@ -55,7 +55,7 @@
 
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex align-items-center" style="margin: 0; padding: 0">
-      <div id="map" @click="flyTo()"></div>
+      <div id="map"></div>
 
       <!-- <div class="container position-relative"> -->
       <!-- <h1>Welcome to Baker</h1>
@@ -68,7 +68,7 @@
 
     <!-- ======= Footer ======= -->
     <footer id="footer">
-      <div class="footer-top">
+      <!-- <div class="footer-top">
         <div class="container">
           <div class="row">
             <div class="col-lg-3 col-md-6 footer-contact">
@@ -152,7 +152,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="container d-md-flex py-4">
         <div class="me-md-auto text-center text-md-start">
@@ -267,11 +267,11 @@ export default {
       console.log(this.map);
 
       this.tailgates.forEach((tailgate) => {
-        this.addMarkerFromAddress(tailgate.id, tailgate.name, tailgate.address);
+        this.addMarkerFromAddress(tailgate.id, tailgate.name, tailgate.game.name, tailgate.address);
       });
     },
 
-    addMarkerFromAddress: function (id, description, address) {
+    addMarkerFromAddress: function (id, description, game, address) {
       this.mapboxClient.geocoding
         .forwardGeocode({
           query: address,
@@ -286,7 +286,7 @@ export default {
             return;
           }
 
-          const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`<br><a href='/tailgates/${id}'>${description}</a>`);
+          const popup = new mapboxgl.Popup({ offset: 10 }).setHTML(`<br><a href='/tailgates/${id}'>${description}</a>`);
 
           const feature = response.body.features[0];
           // Create a marker and add it to the map.

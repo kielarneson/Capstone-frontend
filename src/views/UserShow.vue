@@ -216,7 +216,7 @@ export default {
             .setLngLat(feature.center)
             .setHTML(description)
             .addTo(this.map);
-          this.map.flyTo({ center: feature.center, zoom: 12 });
+          this.map.flyTo({ center: feature.center, zoom: 12.5 });
         });
     },
   },
