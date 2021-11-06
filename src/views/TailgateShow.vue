@@ -29,6 +29,9 @@
       <!-- Display who is attending this tailgate -->
       Attending the Tailgate:
       <div v-for="tailgate_user in tailgate.tailgate_users" v-bind:key="tailgate_user.id">
+        <div v-if="current_user.id != tailgate.user_id && current_user.id != tailgate_user.user_id">
+          <button @click="joinTailgate()">Join Tailgate</button>
+        </div>
         <a :href="`/users/${tailgate_user.user.id}`">{{ tailgate_user.user.user_name }}</a>
       </div>
       <!-- If current user created this tailgate allow them to update and delete it -->
@@ -37,9 +40,6 @@
         <button @click="deleteTailgate(tailgate)">Delete Tailgate</button>
       </div>
       <!-- If not allow the user to join the tailgate -->
-      <div v-if="this.current_user.id != tailgate.user_id">
-        <button @click="joinTailgate()">Join Tailgate</button>
-      </div>
     </div>
 
     <!-- Add lodging and parking information if user has joined the tailgate -->

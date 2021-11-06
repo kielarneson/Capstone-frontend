@@ -1,7 +1,5 @@
 <template>
   <div class="user">
-    <h1>Tailgates attending:</h1>
-
     <div v-for="userTailgate in user.tailgate_users" v-bind:key="userTailgate.id">
       <h1>{{ userTailgate.tailgate.name }}</h1>
       <h4>
@@ -75,8 +73,8 @@ body {
   margin: 0;
   padding: 0;
 }
-#map {
-  height: 750px;
+.mapboxgl-ctrl-top-left {
+  top: 78px !important;
 }
 </style>
 
