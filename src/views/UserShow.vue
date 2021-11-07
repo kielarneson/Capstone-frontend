@@ -6,7 +6,7 @@
         Tailgate: {{ userTailgate.tailgate.address }} | {{ userTailgate.tailgate.start_time_conversion }} -
         {{ userTailgate.tailgate.end_time_conversion }}
       </h4>
-      <h4>Game: {{ userTailgate.game.name }} | {{ userTailgate.game.start_time_conversion.slice(1) }}</h4>
+      <h4>Game: {{ userTailgate.game.name }} | {{ userTailgate.game.start_time_conversion }}</h4>
 
       <!-- I dont understand how this works and it is probably wrong -->
       <button @click="setCurrentUserTailgate(userTailgate)">More info</button>
