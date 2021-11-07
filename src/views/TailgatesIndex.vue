@@ -16,7 +16,7 @@
       </h3>
       <h4>
         {{ tailgate.game.name }} | {{ tailgate.game.address }} |
-        {{ tailgate.game.start_time_conversion.slice(1) }}
+        {{ tailgate.game.start_time_conversion }}
       </h4>
       <!-- <p>{{ tailgate.description }}</p> -->
       <!-- <p>{{ tailgate }}</p> -->

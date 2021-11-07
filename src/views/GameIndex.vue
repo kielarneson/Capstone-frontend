@@ -22,14 +22,15 @@
           {{ record[0].team }} ({{ record[0].total.wins }}-{{ record[0].total.losses }})
         </div>
       </div>
-      <div v-for="record in homeTeamRecord" v-bind:key="record.team">
+      <div v-for="record in homeTeamRecord" 
+      v-bind:key="record.team">
         <div v-if="record.length > 0 && record[0].team === game.performers[0].short_name">
           {{ record[0].team }} ({{ record[0].total.wins }}-{{ record[0].total.losses }})
         </div>
       </div> -->
 
       <!-- </a> -->
-      <p>{{ game.venue.name }} | {{ game.datetime_local }}</p>
+      <p>{{ game.venue.name }} | {{ game.start_time_conversion }}</p>
       <img :src="game.performers[0].image" alt="" />
 
       <!-- Allow user to create tailgate for specific game -->
