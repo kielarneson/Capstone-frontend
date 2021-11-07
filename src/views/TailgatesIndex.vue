@@ -1,9 +1,9 @@
 <template>
   <div class="tailgates">
     <div>
-      <input type="text" v-model="gameFilter" placeholder="search tailgates by game" />
+      <input type="text" v-model="gameFilter" placeholder="search tailgates" />
     </div>
-    <div v-for="tailgate in filterBy(tailgates, gameFilter, 'game')" v-bind:key="tailgate.id">
+    <div v-for="tailgate in filterBy(tailgates, gameFilter)" v-bind:key="tailgate.id">
       <a :href="`/tailgates/${tailgate.id}`">
         <h2>{{ tailgate.name }}</h2>
       </a>

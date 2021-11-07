@@ -252,7 +252,7 @@ export default {
         container: "map", // container ID
         style: "mapbox://styles/mapbox/satellite-streets-v11", // style URL
         center: [-98.35, 39.5], // starting position [lng, lat]
-        zoom: 3.75, // starting zoom
+        zoom: 3.5, // starting zoom
       });
 
       // this.directions = new MapboxDirections({

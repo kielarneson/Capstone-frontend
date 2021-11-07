@@ -179,6 +179,7 @@ export default {
       this.map = new mapboxgl.Map({
         container: "map", // container ID
         style: "mapbox://styles/mapbox/satellite-streets-v11", // style URL
+        // Center is set to Chicago
         center: [-87.62, 41.88], // starting position [lng, lat]
         zoom: 9, // starting zoom
       });
