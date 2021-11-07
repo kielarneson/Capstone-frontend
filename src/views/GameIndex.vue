@@ -2,6 +2,7 @@
   <div class="games">
     <!-- Display CFP top 25 -->
     College Football Selection Committee Top 25:
+    <!-- Maybe add some search capabilites to rankings -->
     <div class="team-rankings" v-for="team in rankings" v-bind:key="team.rank">
       {{ team.rank }}. {{ team.school }} ({{ team.conference }})
     </div>
@@ -17,19 +18,6 @@
       <!-- <a :href="`/tailgates`"> -->
       <h2>{{ game.title }}</h2>
 
-      <!-- <div v-for="record in awayTeamRecord" v-bind:key="record.team">
-        <div v-if="record.length > 0 && record[0].team === game.performers[1].short_name">
-          {{ record[0].team }} ({{ record[0].total.wins }}-{{ record[0].total.losses }})
-        </div>
-      </div>
-      <div v-for="record in homeTeamRecord" 
-      v-bind:key="record.team">
-        <div v-if="record.length > 0 && record[0].team === game.performers[0].short_name">
-          {{ record[0].team }} ({{ record[0].total.wins }}-{{ record[0].total.losses }})
-        </div>
-      </div> -->
-
-      <!-- </a> -->
       <p>{{ game.venue.name }} | {{ game.start_time_conversion }}</p>
       <img :src="game.performers[0].image" alt="" />
 
@@ -94,30 +82,6 @@ export default {
             console.log("News index", response);
             this.news = response.data.articles.slice(0, 5);
           });
-          // WORK ON THIS TOMORROW. IT IS AN INTERESTING PROBLEM TO SOLVE!
-          // let index = 0;
-          // while (index < this.games.length) {
-          //   axios.get(`/records?q=${this.games[index].performers[0].short_name}`).then((response) => {
-          //     // console.log("Home team record index", response);
-          //     this.homeTeamRecord.push(response.data);
-          //   });
-
-          //   // console.log(this.games[index].performers[0].short_name);
-          //   index++;
-          // }
-          // console.log("Home team record", this.homeTeamRecord);
-
-          // index = 0;
-          // while (index < this.games.length) {
-          //   axios.get(`/records?q=${this.games[index].performers[1].short_name}`).then((response) => {
-          //     // console.log("Home team record index", response);
-          //     this.awayTeamRecord.push(response.data);
-          //   });
-
-          //   // console.log(this.games[index].performers[0].short_name);
-          //   index++;
-          // }
-          // console.log("Away team record", this.awayTeamRecord);
         });
       } else {
         let displaySearchQueryArray = this.searchQuery.split(" ");
@@ -140,30 +104,6 @@ export default {
             console.log("News index", response);
             this.news = response.data.articles.slice(0, 5);
           });
-
-          // let index = 0;
-          // while (index < this.games.length) {
-          //   axios.get(`/records?q=${this.games[index].performers[0].short_name}`).then((response) => {
-          //     // console.log("Home team record index", response);
-          //     this.homeTeamRecord.push(response.data);
-          //   });
-
-          //   // console.log(this.games[index].performers[0].short_name);
-          //   index++;
-          // }
-          // console.log("Home team record", this.homeTeamRecord);
-
-          // index = 0;
-          // while (index < this.games.length) {
-          //   axios.get(`/records?q=${this.games[index].performers[1].short_name}`).then((response) => {
-          //     // console.log("Home team record index", response);
-          //     this.awayTeamRecord.push(response.data);
-          //   });
-
-          //   // console.log(this.games[index].performers[0].short_name);
-          //   index++;
-          // }
-          // console.log("Away team record", this.awayTeamRecord);
         });
       }
     },
