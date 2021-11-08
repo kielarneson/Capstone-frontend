@@ -52,7 +52,7 @@
                       {{ tailgate.address }} | {{ tailgate.start_time_conversion }} - {{ tailgate.end_time_conversion }}
                     </h4>
                     <h4>
-                      {{ tailgate.game.name }} | {{ tailgate.game.address }} |
+                      {{ tailgate.game.name }} |
                       {{ tailgate.game.start_time_conversion }}
                     </h4>
                     <!-- <h4>{{ game.title }}</h4>
