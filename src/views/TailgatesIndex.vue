@@ -1,6 +1,108 @@
 <template>
   <div class="tailgates">
-    <div>
+    <div class="container">
+      <div class="row">
+        <!-- <h1>Upcoming {{ this.displaySearchQuery }} Games</h1> -->
+
+        <!-- <div class="search">
+            <input @keyup.enter="indexGames" type="text" v-model="searchQuery" placeholder="search games by team" />
+          </div> -->
+
+        <section id="tailgate" class="team section-bg">
+          <div class="container">
+            <div class="section-title">
+              <h2>Upcoming Tailgates</h2>
+              <!-- <p>
+                  Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint
+                  consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia
+                  fugiat sit in iste officiis commodi quidem hic quas.
+                </p> -->
+              <div>
+                <input type="text" v-model="gameFilter" placeholder="search tailgates" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div v-for="tailgate in filterBy(tailgates, gameFilter)" v-bind:key="tailgate.id">
+                <div class="member">
+                  <div class="member-img">
+                    <!-- <img
+                      :src="game.performers[0].image"
+                      class="img-fluid"
+                      alt=""
+                      style="object-fit: cover; width: 100%"
+                    /> -->
+                    <div class="social">
+                      <!-- <a href=""><i class="bi bi-twitter"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a> -->
+                      <!-- <a :href="`/tailgates/new?game_api_id=${game.id}`">Add New Tailgate</a> -->
+                    </div>
+                  </div>
+                  <div class="member-info">
+                    <a :href="`/tailgates/${tailgate.id}`">
+                      <h2>{{ tailgate.name }}</h2>
+                    </a>
+                    <h4>
+                      <a :href="`/users/${tailgate.user.id}`">Host: {{ tailgate.user.user_name }}</a>
+                    </h4>
+
+                    <h4>
+                      {{ tailgate.address }} | {{ tailgate.start_time_conversion }} - {{ tailgate.end_time_conversion }}
+                    </h4>
+                    <h4>
+                      {{ tailgate.game.name }} | {{ tailgate.game.address }} |
+                      {{ tailgate.game.start_time_conversion }}
+                    </h4>
+                    <!-- <h4>{{ game.title }}</h4>
+                    <p>{{ game.venue.name }} | {{ game.venue.display_location }}</p>
+                    <p>{{ game.start_time_conversion }}</p>
+                    <div v-if="game.tailgates.length > 0">
+                      <h4>Join a tailgate:</h4>
+                    </div>
+                    <div v-for="tailgate in game.tailgates" v-bind:key="tailgate.id">
+                      <div class="tailgate-display" v-if="tailgate">
+                        <a :href="`/tailgates/${tailgate.id}`">
+                          <h6>{{ tailgate.name }}</h6>
+                        </a>
+                      </div>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- <div class="games" v-for="game in games" :key="game.id"> -->
+        <!-- <a :href="`/tailgates`"> -->
+        <!-- <h2>{{ game.title }}</h2>
+
+            <p>{{ game.venue.name }} | {{ game.start_time_conversion }}</p>
+            <img :src="game.performers[0].image" alt="" /> -->
+
+        <!-- Allow user to create tailgate for specific game -->
+        <!-- <div v-for="tailgate in game.tailgates" v-bind:key="tailgate.id">
+              <div class="tailgate-display" v-if="tailgate">
+                <h5>Tailgates for this game:</h5>
+                <a :href="`/tailgates/${tailgate.id}`">
+                  <h3>{{ tailgate.name }}</h3>
+                </a>
+              </div>
+            </div>
+
+            <br /> -->
+
+        <!-- Move user to new game page to enter tailgate specific information -->
+        <!-- <div class="add-new-tailgate">
+              <a :href="`/tailgates/new?game_api_id=${game.id}`">Add New Tailgate</a>
+            </div>
+          </div> -->
+      </div>
+    </div>
+
+    <!-- <div>
       <input type="text" v-model="gameFilter" placeholder="search tailgates" />
     </div>
     <div v-for="tailgate in filterBy(tailgates, gameFilter)" v-bind:key="tailgate.id">
@@ -17,10 +119,10 @@
       <h4>
         {{ tailgate.game.name }} | {{ tailgate.game.address }} |
         {{ tailgate.game.start_time_conversion }}
-      </h4>
-      <!-- <p>{{ tailgate.description }}</p> -->
-      <!-- <p>{{ tailgate }}</p> -->
-    </div>
+      </h4> -->
+    <!-- <p>{{ tailgate.description }}</p> -->
+    <!-- <p>{{ tailgate }}</p> -->
+    <!-- </div> -->
     <!-- <div id="map"></div> -->
   </div>
 </template>
