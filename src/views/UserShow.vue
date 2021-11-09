@@ -73,12 +73,14 @@
       <p>{{ currentUserTailgate.game.address }}</p>
 
       <div class="lodgings-edit">
-        <h2>Update Lodging</h2>
+        <h2>Lodging:</h2>
+        <h4>{{ currentUserTailgate.lodgings[0].lodging_name }}</h4>
+        <p>{{ currentUserTailgate.lodgings[0].address }}</p>
         <form v-on:submit.prevent="updateLodgings(currentUserTailgate.lodgings[0])">
+          Lodging type:
+          <input type="text" v-model="currentUserTailgate.lodgings[0].lodging_type" />
           Lodging name:
           <input type="text" v-model="currentUserTailgate.lodgings[0].lodging_name" />
-          Lodging Type:
-          <input type="text" v-model="currentUserTailgate.lodgings[0].lodging_type" />
           Address:
           <input type="text" v-model="currentUserTailgate.lodgings[0].address" />
           <input type="submit" value="Update" />
@@ -86,9 +88,10 @@
       </div>
 
       <div class="parkings-edit">
-        <h2>Update Parking</h2>
+        <h2>Parking:</h2>
+        <p>{{ currentUserTailgate.parkings[0].address }}</p>
         <form v-on:submit.prevent="updateParkings(currentUserTailgate.parkings[0])">
-          Parking name:
+          Parking type:
           <input type="text" v-model="currentUserTailgate.parkings[0].parking_type" />
           Address:
           <input type="text" v-model="currentUserTailgate.parkings[0].address" />
@@ -152,12 +155,14 @@ export default {
         bets: { lines: [{}] },
         game: { stadium: {}, address: {} },
       },
-      editLodgingsParams: {},
-      editParkingsParams: {},
+      // editLodgingsParams: {},
+      // editParkingsParams: {},
       place: null,
       mapboxClient: null,
       map: null,
       directions: null,
+      restaurantMarkers: [],
+      barMarkers: [],
     };
   },
   created: function () {},
@@ -264,6 +269,12 @@ export default {
         });
     },
     addBarMarkerFromAddress: function (name, description, address) {
+      window.scrollTo(0, 0);
+      this.restaurantMarkers.forEach((marker) => {
+        marker.remove();
+      });
+      this.restaurantMarkers = [];
+
       this.mapboxClient.geocoding
         .forwardGeocode({
           query: address,
@@ -282,11 +293,20 @@ export default {
 
           const feature = response.body.features[0];
           // Create a marker and add it to the map.
-          new mapboxgl.Marker({ color: "#C70039 " }).setLngLat(feature.center).setPopup(popup).addTo(this.map);
+          const marker = new mapboxgl.Marker({ color: "#C70039 " })
+            .setLngLat(feature.center)
+            .setPopup(popup)
+            .addTo(this.map);
+          this.barMarkers.push(marker);
           // this.map.flyTo({ center: feature.center, zoom: 12.5 });
         });
     },
     addRestaurantMarkerFromAddress: function (name, description, address) {
+      window.scrollTo(0, 0);
+      this.barMarkers.forEach((marker) => {
+        marker.remove();
+      });
+      this.barMarkers = [];
       this.mapboxClient.geocoding
         .forwardGeocode({
           query: address,
@@ -305,7 +325,11 @@ export default {
 
           const feature = response.body.features[0];
           // Create a marker and add it to the map.
-          new mapboxgl.Marker({ color: "#FFC300" }).setLngLat(feature.center).setPopup(popup).addTo(this.map);
+          const marker = new mapboxgl.Marker({ color: "#FFC300" })
+            .setLngLat(feature.center)
+            .setPopup(popup)
+            .addTo(this.map);
+          this.restaurantMarkers.push(marker);
           // this.map.flyTo({ center: feature.center, zoom: 12.5 });
         });
     },
