@@ -14,6 +14,13 @@
     </div>
 
     <div v-if="currentUserTailgate.show">
+      <div>
+        <button @click="showBars()">Show Bars</button>
+      </div>
+      <div>
+        <button @click="showRestaurants()">Show Restaurants</button>
+      </div>
+
       <h1>{{ currentUserTailgate.game.name }}</h1>
       <h2>
         {{ currentUserTailgate.awayTeamRecord.team }} ({{ currentUserTailgate.awayTeamRecord.total.wins }}-{{
@@ -220,6 +227,68 @@ export default {
             .addTo(this.map);
           this.map.flyTo({ center: feature.center, zoom: 12.5 });
         });
+    },
+    addBarMarkerFromAddress: function (name, description, address) {
+      this.mapboxClient.geocoding
+        .forwardGeocode({
+          query: address,
+          autocomplete: false,
+          limit: 1,
+        })
+        .send()
+        .then((response) => {
+          if (!response || !response.body || !response.body.features || !response.body.features.length) {
+            console.error("Invalid response:");
+            console.error(response);
+            return;
+          }
+
+          const popup = new mapboxgl.Popup({ offset: 10 }).setHTML(`<p>Bar: ${name}</p><p>${description}</p>`);
+
+          const feature = response.body.features[0];
+          // Create a marker and add it to the map.
+          new mapboxgl.Marker({ color: "#C70039 " }).setLngLat(feature.center).setPopup(popup).addTo(this.map);
+          // this.map.flyTo({ center: feature.center, zoom: 12.5 });
+        });
+    },
+    addRestaurantMarkerFromAddress: function (name, description, address) {
+      this.mapboxClient.geocoding
+        .forwardGeocode({
+          query: address,
+          autocomplete: false,
+          limit: 1,
+        })
+        .send()
+        .then((response) => {
+          if (!response || !response.body || !response.body.features || !response.body.features.length) {
+            console.error("Invalid response:");
+            console.error(response);
+            return;
+          }
+
+          const popup = new mapboxgl.Popup({ offset: 10 }).setHTML(`<p>Restaurant: ${name}</p><p>${description}</p>`);
+
+          const feature = response.body.features[0];
+          // Create a marker and add it to the map.
+          new mapboxgl.Marker({ color: "#FFC300" }).setLngLat(feature.center).setPopup(popup).addTo(this.map);
+          // this.map.flyTo({ center: feature.center, zoom: 12.5 });
+        });
+    },
+    showBars: function () {
+      this.addBarMarkerFromAddress("Ashley's", "description", "338 S State St, Ann Arbor, MI 48104");
+      this.addBarMarkerFromAddress("Bills", "description", "615 E Huron St, Ann Arbor, MI 48104");
+    },
+    showRestaurants: function () {
+      this.addRestaurantMarkerFromAddress(
+        "Zingerman's Deli",
+        "Old-school Jewish deli serving giant sandwiches and all of the classics.",
+        "422 Detroit St, Ann Arbor, MI 48104"
+      );
+      this.addRestaurantMarkerFromAddress(
+        "Pita House",
+        "No frills Mediterranean joint.",
+        "812 S State St, Ann Arbor, MI 48104"
+      );
     },
   },
 };
