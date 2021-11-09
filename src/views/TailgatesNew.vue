@@ -12,6 +12,8 @@
         </ul>
         Name:
         <input type="text" v-model="newTailgateParams.name" />
+        Image:
+        <input type="text" v-model="newTailgateParams.image_url" />
         Description:
         <input type="text" v-model="newTailgateParams.description" />
         Address:

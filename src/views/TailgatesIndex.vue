@@ -48,10 +48,16 @@
                       <a :href="`/users/${tailgate.user.id}`">Host: {{ tailgate.user.user_name }}</a>
                     </h4>
 
+                    <a :href="`/tailgates/${tailgate.id}`">
+                      <img :src="`${tailgate.image_url}`" alt="" />
+                    </a>
+
                     <h4>
-                      {{ tailgate.address }} | {{ tailgate.start_time_conversion }} - {{ tailgate.end_time_conversion }}
+                      Tailgate info: {{ tailgate.address }} | {{ tailgate.start_time_conversion }} -
+                      {{ tailgate.end_time_conversion }}
                     </h4>
                     <h4>
+                      Game info:
                       {{ tailgate.game.name }} |
                       {{ tailgate.game.start_time_conversion }}
                     </h4>
