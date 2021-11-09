@@ -11,6 +11,8 @@
         <p>Host: {{ tailgate.user.user_name }}</p>
       </a>
 
+      <img :src="`${tailgate.image_url}`" alt="" />
+
       <!-- Display tailgate description -->
       Tailgate information:
       <p>{{ tailgate.description }}</p>
