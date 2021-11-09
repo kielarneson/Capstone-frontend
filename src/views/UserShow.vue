@@ -71,6 +71,39 @@
       <h2>Stadium:</h2>
       <h3>{{ currentUserTailgate.game.stadium }}</h3>
       <p>{{ currentUserTailgate.game.address }}</p>
+
+      <div class="lodgings-edit">
+        <h2>Update Lodging</h2>
+        <form v-on:submit.prevent="updateLodgings(currentUserTailgate.lodgings[0])">
+          Lodging name:
+          <input type="text" v-model="currentUserTailgate.lodgings[0].lodging_name" />
+          Lodging Type:
+          <input type="text" v-model="currentUserTailgate.lodgings[0].lodging_type" />
+          Address:
+          <input type="text" v-model="currentUserTailgate.lodgings[0].address" />
+          <input type="submit" value="Update" />
+        </form>
+      </div>
+
+      <div class="parkings-edit">
+        <h2>Update Parking</h2>
+        <form v-on:submit.prevent="updateParkings(currentUserTailgate.parkings[0])">
+          Parking name:
+          <input type="text" v-model="currentUserTailgate.parkings[0].parking_type" />
+          Address:
+          <input type="text" v-model="currentUserTailgate.parkings[0].address" />
+          <input type="submit" value="Update" />
+        </form>
+      </div>
+
+      <!-- <h2>Lodging:</h2>
+      <h4>{{ currentUserTailgate.lodgings[0].lodging_name }}</h4>
+      <p>{{ currentUserTailgate.lodgings[0].lodging_type }}</p>
+      <p>{{ currentUserTailgate.lodgings[0].address }}</p> -->
+
+      <!-- <h2>Parking:</h2>
+      <h4>{{ currentUserTailgate.parkings[0].parking_type }}</h4>
+      <p>{{ currentUserTailgate.parkings[0].address }}</p> -->
     </div>
     <div id="map"></div>
   </div>
@@ -119,6 +152,8 @@ export default {
         bets: { lines: [{}] },
         game: { stadium: {}, address: {} },
       },
+      editLodgingsParams: {},
+      editParkingsParams: {},
       place: null,
       mapboxClient: null,
       map: null,
@@ -289,6 +324,18 @@ export default {
         "No frills Mediterranean joint.",
         "812 S State St, Ann Arbor, MI 48104"
       );
+    },
+    updateLodgings: function (currentUserTailgate) {
+      var editLodgingsParams = currentUserTailgate;
+      axios.patch(`/lodgings/${this.currentUserTailgate.lodgings[0].id}`, editLodgingsParams).then((response) => {
+        console.log("Update Lodgings", response);
+      });
+    },
+    updateParkings: function (currentUserTailgate) {
+      var editParkingsParams = currentUserTailgate;
+      axios.patch(`/parkings/${this.currentUserTailgate.parkings[0].id}`, editParkingsParams).then((response) => {
+        console.log("Update Parkings", response);
+      });
     },
   },
 };
