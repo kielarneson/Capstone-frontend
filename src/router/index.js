@@ -9,6 +9,7 @@ import TailgatesNew from "../views/TailgatesNew";
 import TailgateShow from "../views/TailgateShow";
 import UserShow from "../views/UserShow";
 import GameIndex from "../views/GameIndex";
+import LocationsNew from "../views/LocationsNew";
 
 Vue.use(VueRouter);
 
@@ -34,6 +35,7 @@ const routes = [
   { path: "/tailgates/:id", name: "TailgateShow", component: TailgateShow },
   { path: "/users/:id", name: "UserShow", component: UserShow },
   { path: "/games", name: "GameIndex", component: GameIndex },
+  { path: "/locations", name: "LocationsNew", component: LocationsNew },
 ];
 
 const router = new VueRouter({

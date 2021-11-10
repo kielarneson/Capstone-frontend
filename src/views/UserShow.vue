@@ -25,7 +25,7 @@
       </div>
 
       <h1>{{ currentUserTailgate.game.name }}</h1>
-      <h2>
+      <!-- <h2>
         {{ currentUserTailgate.awayTeamRecord.team }} ({{ currentUserTailgate.awayTeamRecord.total.wins }}-{{
           currentUserTailgate.awayTeamRecord.total.losses
         }}) | {{ currentUserTailgate.homeTeamRecord.team }} ({{ currentUserTailgate.homeTeamRecord.total.wins }}-{{
@@ -55,7 +55,7 @@
           currentUserTailgate.historicalMatchupRecords.games.at(-1).homeScore
         }}) |
         {{ currentUserTailgate.historicalMatchupRecords.games.at(-1).season }}
-      </h4>
+      </h4> -->
       <!-- TODO -->
       <!-- Console is yelling at me because the second tailgate doesn't have betting information yet -->
       <!-- <div v-if="currentUserTailgate.bets.lines[0].formattedSpread.length !== 0">
@@ -133,7 +133,7 @@ body {
   padding: 0;
 }
 .mapboxgl-ctrl-top-left {
-  top: 78px !important;
+  top: 60px !important;
 }
 </style>
 
@@ -231,9 +231,9 @@ export default {
       this.setupMap();
 
       this.addMarkerFromAddress("Stadium", this.currentUserTailgate.game.address);
-      this.addMarkerFromAddress("Tailgate", this.currentUserTailgate.tailgate.address);
       this.addMarkerFromAddress("Lodging", this.currentUserTailgate.lodgings[0].address);
       this.addMarkerFromAddress("Parking", this.currentUserTailgate.parkings[0].address);
+      this.addMarkerFromAddress("Tailgate", this.currentUserTailgate.tailgate.address);
 
       console.log("current user tailgate", this.currentUserTailgate);
     },
@@ -261,6 +261,7 @@ export default {
     },
 
     addMarkerFromAddress: function (description, address) {
+      window.scrollTo(0, 0);
       this.mapboxClient.geocoding
         .forwardGeocode({
           query: address,
@@ -281,7 +282,8 @@ export default {
             .setLngLat(feature.center)
             .setHTML(description)
             .addTo(this.map);
-          this.map.flyTo({ center: feature.center, zoom: 12.5 });
+          // added offset / kinda wonky
+          this.map.flyTo({ center: feature.center, offset: [300, 225], zoom: 13.5 });
         });
     },
     addBarMarkerFromAddress: function (name, description, address) {
@@ -319,7 +321,7 @@ export default {
             .setPopup(popup)
             .addTo(this.map);
           this.barMarkers.push(marker);
-          // this.map.flyTo({ center: feature.center, zoom: 12.5 });
+          this.map.flyTo({ center: feature.center, offset: [100, 30], zoom: 14 });
         });
     },
     addRestaurantMarkerFromAddress: function (name, description, address) {
@@ -357,7 +359,7 @@ export default {
             .setPopup(popup)
             .addTo(this.map);
           this.restaurantMarkers.push(marker);
-          // this.map.flyTo({ center: feature.center, zoom: 12.5 });
+          this.map.flyTo({ center: feature.center, offset: [100, 180], zoom: 13.5 });
         });
     },
     addCampusMarkerFromAddress: function (name, description, address) {
@@ -397,15 +399,10 @@ export default {
             .setPopup(popup)
             .addTo(this.map);
           this.campusMarkers.push(marker);
-          // this.map.flyTo({ center: feature.center, zoom: 12.5 });
+          this.map.flyTo({ center: feature.center, offset: [-150, 150], zoom: 13.5 });
         });
     },
     showBars: function () {
-      this.addBarMarkerFromAddress(
-        "Gallette's",
-        "Birthplace of the famous “Yellowhammer”. Get here early on game days to avoid the long lines. ",
-        "1021 University Blvd, Tuscaloosa, AL 35401"
-      );
       this.addBarMarkerFromAddress(
         "Innisfree",
         "A favorite bar for students, alumni, and out-of-towners alike.",
@@ -421,13 +418,13 @@ export default {
         "Swanky cocktail spot located in the heart of downtown Tuscaloosa. Perfect for those who are looking for a more refined drinking experience.",
         "2209 4th St #11, Tuscaloosa, AL 35401"
       );
+      this.addBarMarkerFromAddress(
+        "Gallette's",
+        "Birthplace of the famous “Yellowhammer”. Get here early on game days to avoid the long lines. ",
+        "1021 University Blvd, Tuscaloosa, AL 35401"
+      );
     },
     showRestaurants: function () {
-      this.addRestaurantMarkerFromAddress(
-        "Rama Jama's",
-        "Go-to spot for breakfast on game days. Lines are to be expected, but they tend to turn over tables pretty quickly.",
-        "1000 Paul W Bryant Dr, Tuscaloosa, AL 35401"
-      );
       this.addRestaurantMarkerFromAddress(
         "Waysider",
         "The quintessential, old-school, Tuscaloosa breakfast spot. “Bear” Bryant ate here every morning for nearly 30 years. His order: 2 eggs over-easy, country ham, and biscuits with red-eye-gravy.",
@@ -457,6 +454,11 @@ export default {
         "Full Moon BBQ",
         "Another solid option if you can’t make it across the Black Warrior for either Archibald’s or Dreamland.",
         "1434 McFarland Blvd E, Tuscaloosa, AL 35404"
+      );
+      this.addRestaurantMarkerFromAddress(
+        "Rama Jama's",
+        "Go-to spot for breakfast on game days. Lines are to be expected, but they tend to turn over tables pretty quickly.",
+        "1000 Paul W Bryant Dr, Tuscaloosa, AL 35401"
       );
     },
     showCampus: function () {

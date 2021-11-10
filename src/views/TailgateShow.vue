@@ -62,32 +62,36 @@
                       <!-- <h4>Tailgate Info</h4>
                       <h6>{{ tailgate.start_time_conversion }} - {{ tailgate.end_time_conversion }}</h6>
                       <h6>{{ tailgate.address }}</h6> -->
-
-                      <p v-if="tailgate.parking_available === true">
-                        <i class="bi bi-check-circle-fill"></i>
-                        Parking available
-                      </p>
-                      <p v-if="tailgate.private_bathroom === true">
-                        <i class="bi bi-check-circle-fill"></i>
-                        Private bathroom
-                      </p>
-                      <p v-if="tailgate.alcohol_allowed === true">
-                        <i class="bi bi-check-circle-fill"></i>
-                        Alcohol allowed
-                      </p>
-                      <p v-if="tailgate.food_provided === true">
-                        <i class="bi bi-check-circle-fill"></i>
-                        Food provided
-                      </p>
-                      <p v-if="tailgate.family_friendly === true">
-                        <i class="bi bi-check-circle-fill"></i>
-                        Family friendly
-                      </p>
-                      <p v-if="tailgate.tv_available === true">
-                        <i class="bi bi-check-circle-fill"></i>
-                        Tv available
-                      </p>
                     </div>
+                  </div>
+                </div>
+
+                <div class="member-info">
+                  <div class="row">
+                    <span class="d-inline" v-if="tailgate.parking_available === true">
+                      <i class="bi bi-check-circle-fill"></i>
+                      Parking available
+                    </span>
+                    <span class="d-inline" v-if="tailgate.private_bathroom === true">
+                      <i class="bi bi-check-circle-fill"></i>
+                      Private bathroom
+                    </span>
+                    <span class="d-inline" v-if="tailgate.alcohol_allowed === true">
+                      <i class="bi bi-check-circle-fill"></i>
+                      Alcohol allowed
+                    </span>
+                    <span class="d-inline" v-if="tailgate.food_provided === true">
+                      <i class="bi bi-check-circle-fill"></i>
+                      Food provided
+                    </span>
+                    <span class="d-inline" v-if="tailgate.family_friendly === true">
+                      <i class="bi bi-check-circle-fill"></i>
+                      Family friendly
+                    </span>
+                    <span class="d-inline" v-if="tailgate.tv_available === true">
+                      <i class="bi bi-check-circle-fill"></i>
+                      Tv available
+                    </span>
                   </div>
                 </div>
 
@@ -165,7 +169,76 @@
 
                 <div class="row">
                   <div v-if="current_user.id != tailgate.user_id">
-                    <button class="btn btn-warning" @click="joinTailgate()">Join Tailgate</button>
+                    <button
+                      class="btn btn-warning"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal"
+                      @click="joinTailgate()"
+                    >
+                      Join Tailgate
+                    </button>
+
+                    <!-- Modal -->
+                    <div
+                      class="modal fade"
+                      id="exampleModal"
+                      tabindex="-1"
+                      aria-labelledby="exampleModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add Lodging and Parking</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <h1>Input Lodging</h1>
+
+                            <ul>
+                              <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+                            </ul>
+                            Lodging type:
+                            <select v-model="newLodgingParams.lodging_type">
+                              <option disabled value="">Please select one</option>
+                              <option>Hotel</option>
+                              <option>Airbnb</option>
+                              <option>Motel</option>
+                              <option>Bed and Breakfast</option>
+                              <option>Friends House</option>
+                              <option>My House</option>
+                            </select>
+                            Lodging name:
+                            <input type="text" v-model="newLodgingParams.lodging_name" />
+                            Address:
+                            <input type="text" v-model="newLodgingParams.address" />
+
+                            <h1>Input Parking</h1>
+                            Parking type:
+                            <select v-model="newParkingParams.parking_type">
+                              <option disabled value="">Please select one</option>
+                              <option>Garage</option>
+                              <option>Street</option>
+                              <option>Lot</option>
+                              <option>Other</option>
+                            </select>
+                            Address:
+                            <input type="text" v-model="newParkingParams.address" />
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button
+                              @click="createLocations()"
+                              data-bs-dismiss="modal"
+                              type="button"
+                              class="btn btn-primary"
+                            >
+                              Save changes
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <!-- If current user created this tailgate allow them to update and delete it -->
                   <div v-if="this.current_user.id == tailgate.user_id">
@@ -278,6 +351,7 @@ export default {
         console.log("Tailgate Users create", response);
         this.showNewTailgate = false;
         this.tailgateUserId = response.data.tailgate_user.id;
+        // this.$router.push(`/users/${this.current_user.id}`);
       });
     },
     createLocations: function () {
@@ -290,8 +364,8 @@ export default {
 
       axios.post(`/parkings`, this.newParkingParams).then((response) => {
         console.log("Parkings create", response);
-        this.$router.push(`/users/${this.current_user.id}`);
       });
+      this.$router.push(`/users/${this.current_user.id}`);
     },
   },
 };

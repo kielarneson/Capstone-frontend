@@ -68,7 +68,8 @@ h6 {
 #header {
   transition: all 0.5s;
   z-index: 997;
-  padding: 20px 0;
+  /* padding: 20px; */
+  padding-bottom: 10px;
   background: rgba(55, 64, 85, 0.9);
 }
 #header.header-transparent {
@@ -76,7 +77,8 @@ h6 {
 }
 #header.header-scrolled {
   background: rgba(55, 64, 85, 0.9);
-  padding: 15px 0;
+  /* padding: 15px 0; */
+  padding-bottom: 10px;
 }
 #header .logo {
   font-size: 28px;

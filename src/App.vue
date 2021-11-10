@@ -252,17 +252,8 @@ export default {
         container: "map", // container ID
         style: "mapbox://styles/mapbox/satellite-streets-v11", // style URL
         center: [-98.35, 39.5], // starting position [lng, lat]
-        zoom: 3.5, // starting zoom
+        zoom: 3.7, // starting zoom
       });
-
-      // this.directions = new MapboxDirections({
-      //   accessToken: mapboxgl.accessToken,
-      // });
-      // this.map.addControl(this.directions, "top-left");
-
-      // // Changed these
-      // this.directions.setOrigin(this.currentUserTailgate.lodgings[0].address);
-      // this.directions.setDestination(this.currentUserTailgate.parkings[0].address);
 
       console.log(this.map);
 
@@ -290,11 +281,7 @@ export default {
 
           const feature = response.body.features[0];
           // Create a marker and add it to the map.
-          new mapboxgl.Marker()
-            .setLngLat(feature.center)
-            // .setHTML(`<br><a href='/tailgates/${id}'>${description}</a>`)
-            .setPopup(popup)
-            .addTo(this.map);
+          new mapboxgl.Marker().setLngLat(feature.center).setPopup(popup).addTo(this.map);
           // this.map.flyTo({ center: feature.center, zoom: 12 });
         });
     },
