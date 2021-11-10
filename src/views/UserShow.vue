@@ -130,7 +130,7 @@
                             </div>
                           </div>
                         </div>
-                        <button data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button class="btn btn-restaurants m-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
                           Update Lodging and Parking
                         </button>
                         <!-- Modal -->
