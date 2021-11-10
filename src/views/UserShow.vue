@@ -1,128 +1,227 @@
 <template>
   <div class="user">
-    <div v-for="userTailgate in user.tailgate_users" v-bind:key="userTailgate.id">
-      <h1>{{ userTailgate.tailgate.name }}</h1>
-      <h4>
-        Tailgate: {{ userTailgate.tailgate.address }} | {{ userTailgate.tailgate.start_time_conversion }} -
-        {{ userTailgate.tailgate.end_time_conversion }}
-      </h4>
-      <!-- Need to fix this start time conversion thing -->
-      <h4>Game: {{ userTailgate.game.name }} | {{ userTailgate.game.start_time_conversion }}</h4>
+    <div class="container">
+      <div class="row">
+        <!-- <h1>Upcoming {{ this.displaySearchQuery }} Games</h1> -->
 
-      <!-- I dont understand how this works and it is probably wrong -->
-      <button @click="setCurrentUserTailgate(userTailgate)">More info</button>
+        <!-- <div class="search">
+              <input @keyup.enter="indexGames" type="text" v-model="searchQuery" placeholder="search games by team" />
+            </div> -->
+
+        <section id="user" class="team section-bg">
+          <div class="container">
+            <div class="section-title">
+              <h2>Tailgates Attending</h2>
+              <!-- <p>
+                    Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint
+                    consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia
+                    fugiat sit in iste officiis commodi quidem hic quas.
+                  </p> -->
+              <!-- <div>
+                  <input type="text" v-model="gameFilter" placeholder="search tailgates" />
+                </div> -->
+            </div>
+
+            <div class="row">
+              <div v-for="userTailgate in user.tailgate_users" v-bind:key="userTailgate.id">
+                <div class="member">
+                  <div class="member-img">
+                    <div class="social">
+                      <!-- <a href=""><i class="bi bi-twitter"></i></a>
+                          <a href=""><i class="bi bi-facebook"></i></a>
+                          <a href=""><i class="bi bi-instagram"></i></a>
+                          <a href=""><i class="bi bi-linkedin"></i></a> -->
+                      <!-- <a :href="`/tailgates/new?game_api_id=${game.id}`">Add New Tailgate</a> -->
+                    </div>
+                  </div>
+                  <div class="member-info">
+                    <div class="row">
+                      <a :href="`/tailgates/${userTailgate.tailgate.id}`">
+                        <h2>{{ userTailgate.tailgate.name }}</h2>
+                      </a>
+                      <div class="col">
+                        <h4>Tailgate Info:</h4>
+                        <h6>
+                          {{ userTailgate.tailgate.address }}
+                          <br />
+                          {{ userTailgate.tailgate.start_time_conversion }} -
+                          {{ userTailgate.tailgate.end_time_conversion }}
+                        </h6>
+                      </div>
+
+                      <div class="col">
+                        <!-- Need to fix this start time conversion thing -->
+                        <h4>Game Info:</h4>
+                        <h6>{{ userTailgate.game.name }} | {{ userTailgate.game.start_time_conversion }}</h6>
+                      </div>
+                    </div>
+
+                    <!-- I dont understand how this works and it is probably wrong -->
+                    <button @click="setCurrentUserTailgate(userTailgate)" class="btn btn-info m-2">More info</button>
+
+                    <div class="row">
+                      <div v-if="currentUserTailgate.show && currentUserTailgate.id === userTailgate.id">
+                        <div class="row">
+                          <div class="col">
+                            <h4>Stadium:</h4>
+                            <h6>{{ currentUserTailgate.game.address }}</h6>
+                          </div>
+
+                          <div class="col">
+                            <div class="lodgings-edit">
+                              <h4>Lodging:</h4>
+                              <h6>{{ currentUserTailgate.lodgings[0].address }}</h6>
+                              <!-- <form v-on:submit.prevent="updateLodgings(currentUserTailgate.lodgings[0])">
+                                    <select v-model="currentUserTailgate.lodgings[0].lodging_type">
+                                      <option disabled value="">Please select one</option>
+                                      <option>Hotel</option>
+                                      <option>Airbnb</option>
+                                      <option>Motel</option>
+                                      <option>Bed and Breakfast</option>
+                                      <option>Friends House</option>
+                                      <option>My House</option>
+                                    </select>
+                                    Lodging name:
+                                    <input type="text" v-model="currentUserTailgate.lodgings[0].lodging_name" />
+                                    Address:
+                                    <input type="text" v-model="currentUserTailgate.lodgings[0].address" />
+                                    <input type="submit" value="Update" />
+                                  </form> -->
+                            </div>
+                          </div>
+
+                          <div class="col">
+                            <div class="parkings-edit">
+                              <h4>Parking:</h4>
+                              <h6>{{ currentUserTailgate.parkings[0].address }}</h6>
+                              <!-- <form v-on:submit.prevent="updateParkings(currentUserTailgate.parkings[0])">
+                                    <select v-model="currentUserTailgate.parkings[0].parking_type">
+                                      <option disabled value="">Please select one</option>
+                                      <option>Garage</option>
+                                      <option>Street</option>
+                                      <option>Lot</option>
+                                      <option>Other</option>
+                                    </select>
+                                    Address:
+                                    <input type="text" v-model="currentUserTailgate.parkings[0].address" />
+                                    <input type="submit" value="Update" />
+                                  </form> -->
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <div>
+                              <button @click="showBars()" class="btn btn-restaurants m-2">Show Bars</button>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div>
+                              <button @click="showRestaurants()" class="btn btn-restaurants m-2">
+                                Show Restaurants
+                              </button>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div>
+                              <button @click="showCampus()" class="btn btn-restaurants m-2">
+                                Show Campus Attractions
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <button data-bs-toggle="modal" data-bs-target="#exampleModal">
+                          Update Lodging and Parking
+                        </button>
+                        <!-- Modal -->
+                        <div
+                          class="modal fade"
+                          id="exampleModal"
+                          tabindex="-1"
+                          aria-labelledby="exampleModalLabel"
+                          aria-hidden="true"
+                        >
+                          <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Update Lodging and Parking</h5>
+                                <button
+                                  type="button"
+                                  class="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                ></button>
+                              </div>
+                              <div class="modal-body">
+                                <!-- <form>
+                                  <div class="form-group"></div>
+                                </form> -->
+                                <h2>Update Lodging</h2>
+
+                                Lodging type:
+                                <select v-model="currentUserTailgate.lodgings[0].lodging_type" class="form-select">
+                                  <option disabled value="">Please select one</option>
+                                  <option>Hotel</option>
+                                  <option>Airbnb</option>
+                                  <option>Motel</option>
+                                  <option>Bed and Breakfast</option>
+                                  <option>Friends House</option>
+                                  <option>My House</option>
+                                </select>
+                                Lodging name:
+                                <input
+                                  type="text"
+                                  v-model="currentUserTailgate.lodgings[0].lodging_name"
+                                  class="form-control"
+                                />
+                                Address:
+                                <input
+                                  type="text"
+                                  v-model="currentUserTailgate.lodgings[0].address"
+                                  class="form-control"
+                                />
+
+                                <h2>Update Parking</h2>
+                                Parking type:
+                                <select v-model="currentUserTailgate.parkings[0].parking_type" class="form-select">
+                                  <option disabled value="">Please select one</option>
+                                  <option>Garage</option>
+                                  <option>Street</option>
+                                  <option>Lot</option>
+                                  <option>Other</option>
+                                </select>
+                                Address:
+                                <input
+                                  type="text"
+                                  v-model="currentUserTailgate.parkings[0].address"
+                                  class="form-control"
+                                />
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button
+                                  @click="updateLodgings(currentUserTailgate)"
+                                  data-bs-dismiss="modal"
+                                  type="button"
+                                  class="btn btn-primary"
+                                >
+                                  Save changes
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
 
-    <div v-if="currentUserTailgate.show">
-      <div>
-        <button @click="showBars()">Show Bars</button>
-      </div>
-      <div>
-        <button @click="showRestaurants()">Show Restaurants</button>
-      </div>
-      <div>
-        <button @click="showCampus()">Show Campus Attractions</button>
-      </div>
-
-      <h1>{{ currentUserTailgate.game.name }}</h1>
-      <!-- <h2>
-        {{ currentUserTailgate.awayTeamRecord.team }} ({{ currentUserTailgate.awayTeamRecord.total.wins }}-{{
-          currentUserTailgate.awayTeamRecord.total.losses
-        }}) | {{ currentUserTailgate.homeTeamRecord.team }} ({{ currentUserTailgate.homeTeamRecord.total.wins }}-{{
-          currentUserTailgate.homeTeamRecord.total.losses
-        }})
-      </h2>
-      <h3>
-        {{ currentUserTailgate.awayTeamRecord.team }} {{ currentUserTailgate.awayTeamRecord.conference }} record: ({{
-          currentUserTailgate.awayTeamRecord.conferenceGames.wins
-        }}-{{ currentUserTailgate.awayTeamRecord.conferenceGames.losses }}) |
-        {{ currentUserTailgate.homeTeamRecord.team }} {{ currentUserTailgate.homeTeamRecord.conference }} record: ({{
-          currentUserTailgate.homeTeamRecord.conferenceGames.wins
-        }}-{{ currentUserTailgate.homeTeamRecord.conferenceGames.losses }})
-      </h3>
-      <h4>
-        Matchup wins since 1980:
-        {{ currentUserTailgate.historicalMatchupRecords.team1 }}:
-        {{ currentUserTailgate.historicalMatchupRecords.team1Wins }} |
-        {{ currentUserTailgate.historicalMatchupRecords.team2 }}:
-        {{ currentUserTailgate.historicalMatchupRecords.team2Wins }}
-      </h4>
-      <h4>
-        Last matchup outcome:
-        {{ currentUserTailgate.historicalMatchupRecords.games.at(-1).awayTeam }} ({{
-          currentUserTailgate.historicalMatchupRecords.games.at(-1).awayScore
-        }}) at {{ currentUserTailgate.historicalMatchupRecords.games.at(-1).homeTeam }} ({{
-          currentUserTailgate.historicalMatchupRecords.games.at(-1).homeScore
-        }}) |
-        {{ currentUserTailgate.historicalMatchupRecords.games.at(-1).season }}
-      </h4> -->
-      <!-- TODO -->
-      <!-- Console is yelling at me because the second tailgate doesn't have betting information yet -->
-      <!-- <div v-if="currentUserTailgate.bets.lines[0].formattedSpread.length !== 0">
-        <h4>
-          {{ currentUserTailgate.bets.lines[0].formattedSpread }} | Total:
-          {{ currentUserTailgate.bets.lines[0].overUnder }}
-        </h4>
-      </div> -->
-
-      <!-- TODO -->
-      <!-- FIRST THING TO CHECK OUT IN THE MORNING -->
-      <!-- <div v-else-if="currentUserTailgate.bets.lines[0].formattedSpread === undefined">
-        <h4>No betting data available at this time</h4>
-      </div> -->
-
-      <h2>Stadium:</h2>
-      <h3>{{ currentUserTailgate.game.stadium }}</h3>
-      <p>{{ currentUserTailgate.game.address }}</p>
-
-      <div class="lodgings-edit">
-        <h2>Lodging:</h2>
-        <h4>{{ currentUserTailgate.lodgings[0].lodging_name }}</h4>
-        <p>{{ currentUserTailgate.lodgings[0].address }}</p>
-        <form v-on:submit.prevent="updateLodgings(currentUserTailgate.lodgings[0])">
-          <select v-model="currentUserTailgate.lodgings[0].lodging_type">
-            <option disabled value="">Please select one</option>
-            <option>Hotel</option>
-            <option>Airbnb</option>
-            <option>Motel</option>
-            <option>Bed and Breakfast</option>
-            <option>Friends House</option>
-            <option>My House</option>
-          </select>
-          Lodging name:
-          <input type="text" v-model="currentUserTailgate.lodgings[0].lodging_name" />
-          Address:
-          <input type="text" v-model="currentUserTailgate.lodgings[0].address" />
-          <input type="submit" value="Update" />
-        </form>
-      </div>
-
-      <div class="parkings-edit">
-        <h2>Parking:</h2>
-        <p>{{ currentUserTailgate.parkings[0].address }}</p>
-        <form v-on:submit.prevent="updateParkings(currentUserTailgate.parkings[0])">
-          <select v-model="currentUserTailgate.parkings[0].parking_type">
-            <option disabled value="">Please select one</option>
-            <option>Garage</option>
-            <option>Street</option>
-            <option>Lot</option>
-            <option>Other</option>
-          </select>
-          Address:
-          <input type="text" v-model="currentUserTailgate.parkings[0].address" />
-          <input type="submit" value="Update" />
-        </form>
-      </div>
-
-      <!-- <h2>Lodging:</h2>
-      <h4>{{ currentUserTailgate.lodgings[0].lodging_name }}</h4>
-      <p>{{ currentUserTailgate.lodgings[0].lodging_type }}</p>
-      <p>{{ currentUserTailgate.lodgings[0].address }}</p> -->
-
-      <!-- <h2>Parking:</h2>
-      <h4>{{ currentUserTailgate.parkings[0].parking_type }}</h4>
-      <p>{{ currentUserTailgate.parkings[0].address }}</p> -->
-    </div>
     <div id="map"></div>
   </div>
 </template>
@@ -134,6 +233,15 @@ body {
 }
 .mapboxgl-ctrl-top-left {
   top: 60px !important;
+}
+.btn-bars {
+  background-color: #c70039 !important;
+}
+.btn-restaurants {
+  background-color: #ffc300 !important;
+}
+.btn-campus {
+  background-color: #ff5733 !important;
 }
 </style>
 
@@ -170,8 +278,8 @@ export default {
         bets: { lines: [{}] },
         game: { stadium: {}, address: {} },
       },
-      // editLodgingsParams: {},
-      // editParkingsParams: {},
+      editLodgingsParams: { lodging_type: {}, lodging_name: {}, address: {} },
+      editParkingsParams: { parking_type: {}, address: {} },
       place: null,
       mapboxClient: null,
       map: null,
@@ -494,17 +602,26 @@ export default {
       );
     },
     updateLodgings: function (currentUserTailgate) {
-      var editLodgingsParams = currentUserTailgate;
-      axios.patch(`/lodgings/${this.currentUserTailgate.lodgings[0].id}`, editLodgingsParams).then((response) => {
-        console.log("Update Lodgings", response);
-      });
+      // this.editLodgingsParams = { lodging_type: {}, lodging_name: {}, address: {} };
+
+      axios
+        .patch(`/lodgings/${this.currentUserTailgate.lodgings[0].id}`, currentUserTailgate.lodgings[0])
+        .then((response) => {
+          console.log("Update Lodgings", response);
+          // this.editParkingsParams = { parking_type: {}, address: {} };
+          axios
+            .patch(`/parkings/${this.currentUserTailgate.parkings[0].id}`, currentUserTailgate.parkings[0])
+            .then((response) => {
+              console.log("Update Parkings", response);
+            });
+        });
     },
-    updateParkings: function (currentUserTailgate) {
-      var editParkingsParams = currentUserTailgate;
-      axios.patch(`/parkings/${this.currentUserTailgate.parkings[0].id}`, editParkingsParams).then((response) => {
-        console.log("Update Parkings", response);
-      });
-    },
+    // updateParkings: function (currentUserTailgate) {
+    //   this.editParkingsParams = currentUserTailgate;
+    //   axios.patch(`/parkings/${this.currentUserTailgate.parkings[0].id}`, this.editParkingsParams).then((response) => {
+    //     console.log("Update Parkings", response);
+    //   });
+    // },
   },
 };
 </script>

@@ -69,27 +69,28 @@
                 <div class="member-info">
                   <div class="row">
                     <div class="col">
-                      <span class="d-inline m-1" v-if="tailgate.parking_available === true">
+                      <h4>Amenities</h4>
+                      <span class="d-inline m-2" v-if="tailgate.parking_available === true">
                         <i class="bi bi-check-circle-fill"></i>
                         Parking available
                       </span>
-                      <span class="d-inline m-1" v-if="tailgate.private_bathroom === true">
+                      <span class="d-inline m-2" v-if="tailgate.private_bathroom === true">
                         <i class="bi bi-check-circle-fill"></i>
                         Private bathroom
                       </span>
-                      <span class="d-inline m-1" v-if="tailgate.alcohol_allowed === true">
+                      <span class="d-inline m-2" v-if="tailgate.alcohol_allowed === true">
                         <i class="bi bi-check-circle-fill"></i>
                         Alcohol allowed
                       </span>
-                      <span class="d-inline m-1" v-if="tailgate.food_provided === true">
+                      <span class="d-inline m-2" v-if="tailgate.food_provided === true">
                         <i class="bi bi-check-circle-fill"></i>
                         Food provided
                       </span>
-                      <span class="d-inline m-1" v-if="tailgate.family_friendly === true">
+                      <span class="d-inline m-2" v-if="tailgate.family_friendly === true">
                         <i class="bi bi-check-circle-fill"></i>
                         Family friendly
                       </span>
-                      <span class="d-inline m-1" v-if="tailgate.tv_available === true">
+                      <span class="d-inline m-2" v-if="tailgate.tv_available === true">
                         <i class="bi bi-check-circle-fill"></i>
                         Tv available
                       </span>
