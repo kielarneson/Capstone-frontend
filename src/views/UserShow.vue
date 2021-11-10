@@ -80,8 +80,15 @@
         <h4>{{ currentUserTailgate.lodgings[0].lodging_name }}</h4>
         <p>{{ currentUserTailgate.lodgings[0].address }}</p>
         <form v-on:submit.prevent="updateLodgings(currentUserTailgate.lodgings[0])">
-          Lodging type:
-          <input type="text" v-model="currentUserTailgate.lodgings[0].lodging_type" />
+          <select v-model="currentUserTailgate.lodgings[0].lodging_type">
+            <option disabled value="">Please select one</option>
+            <option>Hotel</option>
+            <option>Airbnb</option>
+            <option>Motel</option>
+            <option>Bed and Breakfast</option>
+            <option>Friends House</option>
+            <option>My House</option>
+          </select>
           Lodging name:
           <input type="text" v-model="currentUserTailgate.lodgings[0].lodging_name" />
           Address:
@@ -94,8 +101,13 @@
         <h2>Parking:</h2>
         <p>{{ currentUserTailgate.parkings[0].address }}</p>
         <form v-on:submit.prevent="updateParkings(currentUserTailgate.parkings[0])">
-          Parking type:
-          <input type="text" v-model="currentUserTailgate.parkings[0].parking_type" />
+          <select v-model="currentUserTailgate.parkings[0].parking_type">
+            <option disabled value="">Please select one</option>
+            <option>Garage</option>
+            <option>Street</option>
+            <option>Lot</option>
+            <option>Other</option>
+          </select>
           Address:
           <input type="text" v-model="currentUserTailgate.parkings[0].address" />
           <input type="submit" value="Update" />
