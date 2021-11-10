@@ -2,6 +2,13 @@
   <div class="games">
     <div class="container">
       <div class="row">
+        <div class="col-2">
+          <h3>College Football Playoff Top 25</h3>
+          <div class="team-rankings" v-for="team in rankings" v-bind:key="team.rank">
+            {{ team.rank }}. {{ team.school }} ({{ team.conference }})
+          </div>
+        </div>
+
         <div class="col-8">
           <section id="team" class="team section-bg">
             <div class="container">
@@ -62,7 +69,7 @@
           </section>
         </div>
 
-        <div class="col">
+        <div class="col-2">
           <!-- <h3>College Football Playoff Top 25</h3>
           <div class="team-rankings" v-for="team in rankings" v-bind:key="team.rank">
             {{ team.rank }}. {{ team.school }} ({{ team.conference }})
@@ -87,15 +94,15 @@
 .container {
   padding-top: 10px;
 }
-.articles {
+/* .articles {
   padding-top: 50px;
-}
+} */
 .article {
   padding-top: 10px;
 }
-.search {
+/* .search {
   padding-top: 20px;
-}
+} */
 .games {
   padding-top: 20px;
 }
@@ -128,7 +135,7 @@ export default {
 
     axios.get("/rankings").then((response) => {
       console.log("Rankings index", response);
-      this.rankings = response.data.at(1).polls[0].ranks;
+      this.rankings = response.data.at(-1).polls[3].ranks;
       // this.rankings = response.data.at(-1).polls[3].ranks;
     });
   },

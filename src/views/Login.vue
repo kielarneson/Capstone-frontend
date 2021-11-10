@@ -78,7 +78,7 @@ export default {
           localStorage.setItem("jwt", response.data.jwt);
           localStorage.setItem("user_id", response.data.user_id);
           this.$emit("refreshUser");
-          this.$router.push("/games");
+          this.$router.push("/tailgates");
         })
         .catch((error) => {
           console.log(error.response);
