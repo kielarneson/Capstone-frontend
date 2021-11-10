@@ -3,12 +3,6 @@
     <div class="container">
       <div class="row">
         <div class="col-8">
-          <!-- <h1>Upcoming {{ this.displaySearchQuery }} Games</h1> -->
-
-          <!-- <div class="search">
-            <input @keyup.enter="indexGames" type="text" v-model="searchQuery" placeholder="search games by team" />
-          </div> -->
-
           <section id="team" class="team section-bg">
             <div class="container">
               <div class="section-title">
@@ -66,31 +60,6 @@
               </div>
             </div>
           </section>
-
-          <!-- <div class="games" v-for="game in games" :key="game.id"> -->
-          <!-- <a :href="`/tailgates`"> -->
-          <!-- <h2>{{ game.title }}</h2>
-
-            <p>{{ game.venue.name }} | {{ game.start_time_conversion }}</p>
-            <img :src="game.performers[0].image" alt="" /> -->
-
-          <!-- Allow user to create tailgate for specific game -->
-          <!-- <div v-for="tailgate in game.tailgates" v-bind:key="tailgate.id">
-              <div class="tailgate-display" v-if="tailgate">
-                <h5>Tailgates for this game:</h5>
-                <a :href="`/tailgates/${tailgate.id}`">
-                  <h3>{{ tailgate.name }}</h3>
-                </a>
-              </div>
-            </div>
-
-            <br /> -->
-
-          <!-- Move user to new game page to enter tailgate specific information -->
-          <!-- <div class="add-new-tailgate">
-              <a :href="`/tailgates/new?game_api_id=${game.id}`">Add New Tailgate</a>
-            </div>
-          </div> -->
         </div>
 
         <div class="col">
