@@ -68,30 +68,32 @@
 
                 <div class="member-info">
                   <div class="row">
-                    <span class="d-inline" v-if="tailgate.parking_available === true">
-                      <i class="bi bi-check-circle-fill"></i>
-                      Parking available
-                    </span>
-                    <span class="d-inline" v-if="tailgate.private_bathroom === true">
-                      <i class="bi bi-check-circle-fill"></i>
-                      Private bathroom
-                    </span>
-                    <span class="d-inline" v-if="tailgate.alcohol_allowed === true">
-                      <i class="bi bi-check-circle-fill"></i>
-                      Alcohol allowed
-                    </span>
-                    <span class="d-inline" v-if="tailgate.food_provided === true">
-                      <i class="bi bi-check-circle-fill"></i>
-                      Food provided
-                    </span>
-                    <span class="d-inline" v-if="tailgate.family_friendly === true">
-                      <i class="bi bi-check-circle-fill"></i>
-                      Family friendly
-                    </span>
-                    <span class="d-inline" v-if="tailgate.tv_available === true">
-                      <i class="bi bi-check-circle-fill"></i>
-                      Tv available
-                    </span>
+                    <div class="col">
+                      <span class="d-inline m-1" v-if="tailgate.parking_available === true">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Parking available
+                      </span>
+                      <span class="d-inline m-1" v-if="tailgate.private_bathroom === true">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Private bathroom
+                      </span>
+                      <span class="d-inline m-1" v-if="tailgate.alcohol_allowed === true">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Alcohol allowed
+                      </span>
+                      <span class="d-inline m-1" v-if="tailgate.food_provided === true">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Food provided
+                      </span>
+                      <span class="d-inline m-1" v-if="tailgate.family_friendly === true">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Family friendly
+                      </span>
+                      <span class="d-inline m-1" v-if="tailgate.tv_available === true">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Tv available
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -186,20 +188,23 @@
                       aria-labelledby="exampleModalLabel"
                       aria-hidden="true"
                     >
-                      <div class="modal-dialog">
+                      <div class="modal-dialog modal-lg modal-dialog-centered">
                         <div class="modal-content">
                           <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Add Lodging and Parking</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                            <h1>Input Lodging</h1>
+                            <form>
+                              <div class="form-group"></div>
+                            </form>
+                            <h2>Input Lodging</h2>
 
                             <ul>
                               <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
                             </ul>
                             Lodging type:
-                            <select v-model="newLodgingParams.lodging_type">
+                            <select v-model="newLodgingParams.lodging_type" class="form-select">
                               <option disabled value="">Please select one</option>
                               <option>Hotel</option>
                               <option>Airbnb</option>
@@ -209,13 +214,13 @@
                               <option>My House</option>
                             </select>
                             Lodging name:
-                            <input type="text" v-model="newLodgingParams.lodging_name" />
+                            <input type="text" v-model="newLodgingParams.lodging_name" class="form-control" />
                             Address:
-                            <input type="text" v-model="newLodgingParams.address" />
+                            <input type="text" v-model="newLodgingParams.address" class="form-control" />
 
-                            <h1>Input Parking</h1>
+                            <h2>Input Parking</h2>
                             Parking type:
-                            <select v-model="newParkingParams.parking_type">
+                            <select v-model="newParkingParams.parking_type" class="form-select">
                               <option disabled value="">Please select one</option>
                               <option>Garage</option>
                               <option>Street</option>
@@ -223,7 +228,7 @@
                               <option>Other</option>
                             </select>
                             Address:
-                            <input type="text" v-model="newParkingParams.address" />
+                            <input type="text" v-model="newParkingParams.address" class="form-control" />
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
