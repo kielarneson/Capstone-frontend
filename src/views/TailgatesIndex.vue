@@ -148,7 +148,7 @@ body {
 }
 .tailgate-image {
   width: 100%;
-  height: 350px;
+  height: 250px;
   object-fit: cover;
 }
 .tailgate-info {

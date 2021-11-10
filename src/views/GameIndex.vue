@@ -102,9 +102,9 @@
             <h3>{{ this.displaySearchQuery }} Stories</h3>
             <div class="article" v-for="article in news" v-bind:key="article.id">
               <!-- <h4>{{ article.source.name }}</h4> -->
-              <h4>{{ article.title }}</h4>
+              <h5>{{ article.title }}</h5>
               <img :src="`${article.urlToImage}`" style="object-fit: cover; width: 100%" alt="" />
-              <p>{{ article.content }}</p>
+              <h6>{{ article.content }}</h6>
               <a :href="`${article.url}`">link to full story</a>
             </div>
           </div>
