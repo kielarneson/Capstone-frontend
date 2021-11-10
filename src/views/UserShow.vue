@@ -20,6 +20,9 @@
       <div>
         <button @click="showRestaurants()">Show Restaurants</button>
       </div>
+      <div>
+        <button @click="showCampus()">Show Campus Attractions</button>
+      </div>
 
       <h1>{{ currentUserTailgate.game.name }}</h1>
       <h2>
@@ -163,6 +166,7 @@ export default {
       directions: null,
       restaurantMarkers: [],
       barMarkers: [],
+      campusMarkers: [],
     };
   },
   created: function () {},
@@ -275,6 +279,11 @@ export default {
       });
       this.restaurantMarkers = [];
 
+      this.campusMarkers.forEach((marker) => {
+        marker.remove();
+      });
+      this.campusMarkers = [];
+
       this.mapboxClient.geocoding
         .forwardGeocode({
           query: address,
@@ -307,6 +316,12 @@ export default {
         marker.remove();
       });
       this.barMarkers = [];
+
+      this.campusMarkers.forEach((marker) => {
+        marker.remove();
+      });
+      this.campusMarkers = [];
+
       this.mapboxClient.geocoding
         .forwardGeocode({
           query: address,
@@ -333,20 +348,135 @@ export default {
           // this.map.flyTo({ center: feature.center, zoom: 12.5 });
         });
     },
+    addCampusMarkerFromAddress: function (name, description, address) {
+      window.scrollTo(0, 0);
+      this.barMarkers.forEach((marker) => {
+        marker.remove();
+      });
+      this.barMarkers = [];
+
+      this.restaurantMarkers.forEach((marker) => {
+        marker.remove();
+      });
+      this.restaurantMarkers = [];
+
+      this.mapboxClient.geocoding
+        .forwardGeocode({
+          query: address,
+          autocomplete: false,
+          limit: 1,
+        })
+        .send()
+        .then((response) => {
+          if (!response || !response.body || !response.body.features || !response.body.features.length) {
+            console.error("Invalid response:");
+            console.error(response);
+            return;
+          }
+
+          const popup = new mapboxgl.Popup({ offset: 10 }).setHTML(
+            `<p>Campus Attraction: ${name}</p><p>${description}</p>`
+          );
+
+          const feature = response.body.features[0];
+          // Create a marker and add it to the map.
+          const marker = new mapboxgl.Marker({ color: "#FF5733" })
+            .setLngLat(feature.center)
+            .setPopup(popup)
+            .addTo(this.map);
+          this.campusMarkers.push(marker);
+          // this.map.flyTo({ center: feature.center, zoom: 12.5 });
+        });
+    },
     showBars: function () {
-      this.addBarMarkerFromAddress("Ashley's", "description", "338 S State St, Ann Arbor, MI 48104");
-      this.addBarMarkerFromAddress("Bills", "description", "615 E Huron St, Ann Arbor, MI 48104");
+      this.addBarMarkerFromAddress(
+        "Gallette's",
+        "Birthplace of the famous “Yellowhammer”. Get here early on game days to avoid the long lines. ",
+        "1021 University Blvd, Tuscaloosa, AL 35401"
+      );
+      this.addBarMarkerFromAddress(
+        "Innisfree",
+        "A favorite bar for students, alumni, and out-of-towners alike.",
+        "1925 University Blvd, Tuscaloosa, AL 35401"
+      );
+      this.addBarMarkerFromAddress(
+        "Druid City Brewing",
+        "The best brewery in Tuscaloosa by a long shot. Be sure to check out the famous chalkboard wall and snap a picture with whatever the featured art happens to be.",
+        "607 14th St, Tuscaloosa, AL 35401"
+      );
+      this.addBarMarkerFromAddress(
+        "Nocturnal Tavern",
+        "Swanky cocktail spot located in the heart of downtown Tuscaloosa. Perfect for those who are looking for a more refined drinking experience.",
+        "2209 4th St #11, Tuscaloosa, AL 35401"
+      );
     },
     showRestaurants: function () {
       this.addRestaurantMarkerFromAddress(
-        "Zingerman's Deli",
-        "Old-school Jewish deli serving giant sandwiches and all of the classics.",
-        "422 Detroit St, Ann Arbor, MI 48104"
+        "Rama Jama's",
+        "Go-to spot for breakfast on game days. Lines are to be expected, but they tend to turn over tables pretty quickly.",
+        "1000 Paul W Bryant Dr, Tuscaloosa, AL 35401"
       );
       this.addRestaurantMarkerFromAddress(
-        "Pita House",
-        "No frills Mediterranean joint.",
-        "812 S State St, Ann Arbor, MI 48104"
+        "Waysider",
+        "The quintessential, old-school, Tuscaloosa breakfast spot. “Bear” Bryant ate here every morning for nearly 30 years. His order: 2 eggs over-easy, country ham, and biscuits with red-eye-gravy.",
+        "1512 Greensboro Ave, Tuscaloosa, AL 35401"
+      );
+      this.addRestaurantMarkerFromAddress(
+        "FIVE",
+        "For those looking for a casual, yet modern dining experience, FIVE pairs the best of both worlds.",
+        "2324 6th St, Tuscaloosa, AL 35401"
+      );
+      this.addRestaurantMarkerFromAddress(
+        "City Cafe",
+        "Classic meat and three with counter seating. Get here early to make sure the daily special is still available.",
+        "408 Main Ave, Northport, AL 35476"
+      );
+      this.addRestaurantMarkerFromAddress(
+        "Archibald's",
+        "The king of Tuscaloosa BBQ. Don’t be intimidated by its humble exterior, many foodies claim that Archibald’s has the best ribs in America!",
+        "1211 Martin Luther King Jr Blvd, Northport, AL 35476"
+      );
+      this.addRestaurantMarkerFromAddress(
+        "Dreamland BBQ",
+        "If you’re looking for great BBQ and want something that’s a bit more accessible than Archibald’s, Dreamland is for you. Be sure to try the “smoker sampler” as pretty much everything they make here is delicious.",
+        "101 Bridge Ave, Northport, AL 35476"
+      );
+      this.addRestaurantMarkerFromAddress(
+        "Full Moon BBQ",
+        "Another solid option if you can’t make it across the Black Warrior for either Archibald’s or Dreamland.",
+        "1434 McFarland Blvd E, Tuscaloosa, AL 35404"
+      );
+    },
+    showCampus: function () {
+      this.addCampusMarkerFromAddress(
+        "President's Mansion",
+        "Built between 1839 and 1841, and one of the few campus buildings to survive the Civil War, this Greek Revival-style home with its sweeping front staircase has been on the National Register of Historic Places since 1972. It has served as home to University presidents and their families for nearly two centuries.",
+        "727 Magnolia Dr, Tuscaloosa, AL 35401"
+      );
+      this.addCampusMarkerFromAddress(
+        "Walk of Champions",
+        "In all of college football, few gladiatorial arenas top the list of legendary locations where the best-of-the-best gridiron warriors clash. Bryant-Denny Stadium is one of them.",
+        "950 University Blvd, Tuscaloosa, AL 35401"
+      );
+      this.addCampusMarkerFromAddress(
+        "Denny Chimes",
+        "Standing on the center edge of the Quad directly across from the President’s Mansion is a 115-foot-tall tower that has been the iconic symbol of the University since it was dedicated in 1929 in honor of Dr. George H. Denny, president of the Capstone from 1912 to 1936, and again in 1941. On UA football game days, popular melodies can be heard as select students or faculty play the modified organ inside the tower.",
+        "denny chimes"
+      );
+      this.addCampusMarkerFromAddress(
+        `Paul "Bear" Bryant Museum`,
+        "The Paul W. Bryant Museum is every Alabama football fan’s dream. It takes visitors through the history of Alabama football. The museum specifically highlights Paul “Bear” Bryant’s life and achievements as UA’s award-winning head football coach. It also showcases trophies and rings the football team has won.",
+        "300 Paul W Bryant Dr, Tuscaloosa, AL 35401"
+      );
+      this.addCampusMarkerFromAddress(
+        "Manderson Landing",
+        "Located on the Black Warrior River, the 4 acres that make up the Park at Manderson Landing were transferred to the University from the federal government in 2009 – the first time the Federal Lands to Parks Program transferred property to an institute of higher learning.",
+        "501 Jack Warner Pkwy, Tuscaloosa, AL 35404"
+      );
+      this.addCampusMarkerFromAddress(
+        "Gorgas House",
+        "University of Alabama's oldest structure, built in 1829, featuring period furnishings & artifacts.",
+        "810 Capstone Dr, Tuscaloosa, AL 35401"
       );
     },
     updateLodgings: function (currentUserTailgate) {

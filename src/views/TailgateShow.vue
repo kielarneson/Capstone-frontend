@@ -1,82 +1,136 @@
 <template>
-  <div class="tailgate-show">
-    <div v-if="showNewTailgate">
-      <h2>
-        <!-- Display tailgate name -->
-        {{ tailgate.name }}
-      </h2>
+  <div class="tailgate">
+    <div class="container">
+      <div class="row">
+        <section id="tailgate" class="team section-bg">
+          <div class="container">
+            <div class="section-title">
+              <h2>{{ tailgate.name }}</h2>
+              <h4>{{ tailgate.game.name }}</h4>
 
-      <!-- Display tailgate host and link to profile -->
-      <a :href="`/users/${tailgate.user.id}`">
-        <p>Host: {{ tailgate.user.user_name }}</p>
-      </a>
+              <!-- <a :href="`/tailgates/${tailgate.id}`">
+                <img class="tailgate-image" :src="`${tailgate.image_url}`" alt="" />
+              </a> -->
+              <!-- <h2>Upcoming Tailgates</h2> -->
 
-      <img :src="`${tailgate.image_url}`" alt="" />
+              <br />
+              <h6>{{ tailgate.description }}</h6>
+              <br />
+              <h5>
+                <a :href="`/users/${tailgate.user.id}`">Host: {{ tailgate.user.user_name }}</a>
+              </h5>
+              <!-- <p>
+                Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint
+                consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat
+                sit in iste officiis commodi quidem hic quas.
+              </p> -->
+            </div>
 
-      <!-- Display tailgate description -->
-      Tailgate information:
-      <p>{{ tailgate.description }}</p>
+            <div class="row">
+              <div class="member">
+                <div class="member-img">
+                  <a :href="`/tailgates/${tailgate.id}`">
+                    <img class="tailgate-image" :src="`${tailgate.image_url}`" alt="" />
+                  </a>
+                  <!-- <img
+                      :src="game.performers[0].image"
+                      class="img-fluid"
+                      alt=""
+                      style="object-fit: cover; width: 100%"
+                    /> -->
+                  <!-- <div class="social"> -->
+                  <!-- <a href=""><i class="bi bi-twitter"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a> -->
+                  <!-- <a :href="`/tailgates/new?game_api_id=${game.id}`">Add New Tailgate</a> -->
+                  <!-- </div> -->
+                </div>
 
-      <!-- Display amenities offered -->
-      Amenities offered:
-      <div class="tailgate-amenities">
-        <p v-if="tailgate.parking_available === true">Parking available</p>
-        <p v-if="tailgate.private_bathroom === true">Private bathroom</p>
-        <p v-if="tailgate.alcohol_allowed === true">Alcohol allowed</p>
-        <p v-if="tailgate.food_provided === true">Food provided</p>
-        <p v-if="tailgate.family_friendly === true">Family friendly</p>
-        <p v-if="tailgate.tv_available === true">Tv available</p>
+                <div class="member-info">
+                  <div class="row">
+                    <div class="col tailgate-info">
+                      <h4>Game Info</h4>
+                      <h6>{{ tailgate.game.stadium }} | {{ tailgate.game.start_time_conversion }}</h6>
+                      <h6>{{ tailgate.game.address }}</h6>
+                      <!-- <a :href="`/tailgates/${tailgate.id}`">
+                        <h2>{{ tailgate.name }}</h2>
+                      </a>
+                      <h4>
+                        <a :href="`/users/${tailgate.user.id}`">Host: {{ tailgate.user.user_name }}</a>
+                      </h4> -->
+                    </div>
+
+                    <div class="col tailgate-info">
+                      <h4>Tailgate Info</h4>
+                      <h6>{{ tailgate.start_time_conversion }} - {{ tailgate.end_time_conversion }}</h6>
+                      <h6>{{ tailgate.address }}</h6>
+                      <p v-if="tailgate.parking_available === true">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Parking available
+                      </p>
+                      <p v-if="tailgate.private_bathroom === true">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Private bathroom
+                      </p>
+                      <p v-if="tailgate.alcohol_allowed === true">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Alcohol allowed
+                      </p>
+                      <p v-if="tailgate.food_provided === true">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Food provided
+                      </p>
+                      <p v-if="tailgate.family_friendly === true">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Family friendly
+                      </p>
+                      <p v-if="tailgate.tv_available === true">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Tv available
+                      </p>
+                    </div>
+
+                    <div class="col tailgate-info">
+                      <h4>Attending the Tailgate:</h4>
+                      <div v-for="tailgate_user in tailgate.tailgate_users" v-bind:key="tailgate_user.id">
+                        <a :href="`/users/${tailgate_user.user.id}`">{{ tailgate_user.user.user_name }}</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">review placeholder</div>
+
+                <div class="row">
+                  <div v-if="current_user.id != tailgate.user_id">
+                    <button class="btn btn-warning" @click="joinTailgate()">Join Tailgate</button>
+                  </div>
+                  <!-- If current user created this tailgate allow them to update and delete it -->
+                  <div v-if="this.current_user.id == tailgate.user_id">
+                    <button class="btn btn-warning" @click="updateTailgate(tailgate)">Update Tailgate</button>
+                    |
+                    <button class="btn btn-warning" @click="deleteTailgate(tailgate)">Delete Tailgate</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
-
-      <!-- Display who is attending this tailgate -->
-      Attending the Tailgate:
-      <div v-for="tailgate_user in tailgate.tailgate_users" v-bind:key="tailgate_user.id">
-        <a :href="`/users/${tailgate_user.user.id}`">{{ tailgate_user.user.user_name }}</a>
-      </div>
-      <div v-if="current_user.id != tailgate.user_id">
-        <button @click="joinTailgate()">Join Tailgate</button>
-      </div>
-      <!-- If current user created this tailgate allow them to update and delete it -->
-      <div v-if="this.current_user.id == tailgate.user_id">
-        <button @click="updateTailgate(tailgate)">Update Tailgate</button>
-        <button @click="deleteTailgate(tailgate)">Delete Tailgate</button>
-      </div>
-      <!-- If not allow the user to join the tailgate -->
     </div>
-
-    <!-- Add lodging and parking information if user has joined the tailgate -->
-    <div class="locations-new" v-else>
-      <h1>Input Lodging</h1>
-      <form v-on:submit.prevent="createLocations()">
-        <ul>
-          <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
-        </ul>
-        Lodging type:
-        <input type="text" v-model="newLodgingParams.lodging_type" />
-        Lodging name:
-        <input type="text" v-model="newLodgingParams.lodging_name" />
-        Address:
-        <input type="text" v-model="newLodgingParams.address" />
-
-        <h1>Input Parking</h1>
-        Parking type:
-        <input type="text" v-model="newParkingParams.parking_type" />
-        Address:
-        <input type="text" v-model="newParkingParams.address" />
-        <input type="submit" value="Create" />
-      </form>
-    </div>
-
-    <br />
-
-    <!-- Go back to tailgates index or games index -->
-    <router-link to="/tailgates">Back to tailgates</router-link>
-    |
-    <router-link to="/games">Back to games</router-link>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.tailgate-image {
+  height: 100%;
+  padding-top: 13px;
+}
+.tailgate-info {
+  text-align: center;
+}
+</style>
 
 <script>
 import axios from "axios";

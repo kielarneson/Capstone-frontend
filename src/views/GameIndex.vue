@@ -48,8 +48,8 @@
                     </div>
                     <div class="member-info">
                       <h4>{{ game.title }}</h4>
-                      <p>{{ game.venue.name }} | {{ game.venue.display_location }}</p>
-                      <p>{{ game.start_time_conversion }}</p>
+                      <h6>{{ game.venue.name }} | {{ game.venue.display_location }}</h6>
+                      <h6>{{ game.start_time_conversion }}</h6>
                       <div v-if="game.tailgates.length > 0">
                         <h4>Join a tailgate:</h4>
                       </div>

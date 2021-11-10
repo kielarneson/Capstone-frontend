@@ -54,15 +54,16 @@
                         <h4>
                           <a :href="`/users/${tailgate.user.id}`">Host: {{ tailgate.user.user_name }}</a>
                         </h4>
-                        <h4>About:</h4>
-                        <h6>{{ tailgate.description }}</h6>
+                        <!-- <h4>About:</h4>
+                        <h6>{{ tailgate.description }}</h6> -->
+                        <!-- <h4>Tailgate info:</h4>
+                        <h6>Address: {{ tailgate.address }}</h6> -->
                         <h4>Tailgate info:</h4>
-                        <h6>Address: {{ tailgate.address }}</h6>
-                        <h6>
-                          Time and date: {{ tailgate.start_time_conversion }} - {{ tailgate.end_time_conversion }}
-                        </h6>
+                        <h6>{{ tailgate.start_time_conversion }} - {{ tailgate.end_time_conversion }}</h6>
                         <h4>Game info:</h4>
-                        <h6>{{ tailgate.game.name }} | {{ tailgate.game.start_time_conversion }}</h6>
+                        <h6>{{ tailgate.game.name }}</h6>
+                        <h6>{{ tailgate.game.stadium }} | {{ tailgate.game.start_time_conversion }}</h6>
+
                         <!-- <h4>{{ game.title }}</h4>
                     <p>{{ game.venue.name }} | {{ game.venue.display_location }}</p>
                     <p>{{ game.start_time_conversion }}</p>
