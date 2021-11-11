@@ -391,7 +391,7 @@ export default {
             .setHTML(description)
             .addTo(this.map);
           // added offset / kinda wonky
-          this.map.flyTo({ center: feature.center, offset: [300, 225], zoom: 13.5 });
+          this.map.flyTo({ center: feature.center, zoom: 13.5 });
         });
     },
     addBarMarkerFromAddress: function (name, description, address) {
@@ -429,7 +429,7 @@ export default {
             .setPopup(popup)
             .addTo(this.map);
           this.barMarkers.push(marker);
-          this.map.flyTo({ center: feature.center, offset: [100, 30], zoom: 14 });
+          this.map.flyTo({ center: feature.center, zoom: 14 });
         });
     },
     addRestaurantMarkerFromAddress: function (name, description, address) {
@@ -467,7 +467,7 @@ export default {
             .setPopup(popup)
             .addTo(this.map);
           this.restaurantMarkers.push(marker);
-          this.map.flyTo({ center: feature.center, offset: [100, 180], zoom: 13.5 });
+          this.map.flyTo({ center: feature.center, zoom: 13.5 });
         });
     },
     addCampusMarkerFromAddress: function (name, description, address) {
@@ -507,7 +507,7 @@ export default {
             .setPopup(popup)
             .addTo(this.map);
           this.campusMarkers.push(marker);
-          this.map.flyTo({ center: feature.center, offset: [-150, 150], zoom: 13.5 });
+          this.map.flyTo({ center: feature.center, zoom: 13.5 });
         });
     },
     showBars: function () {

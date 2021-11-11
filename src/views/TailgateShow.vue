@@ -13,9 +13,6 @@
               </a> -->
               <!-- <h2>Upcoming Tailgates</h2> -->
 
-              <br />
-              <h6>{{ tailgate.description }}</h6>
-              <br />
               <h5>
                 <a :href="`/users/${tailgate.user.id}`">Host: {{ tailgate.user.user_name }}</a>
               </h5>
@@ -68,6 +65,13 @@
 
                 <div class="member-info">
                   <div class="row">
+                    <h4>Description</h4>
+                    <h6>{{ tailgate.description }}</h6>
+                  </div>
+                </div>
+
+                <div class="member-info">
+                  <div class="row">
                     <div class="col">
                       <h4>Amenities</h4>
                       <span class="d-inline m-2" v-if="tailgate.parking_available === true">
@@ -100,6 +104,7 @@
 
                 <div class="member-info">
                   <div class="row">
+                    <h4>Game Stats</h4>
                     <div class="col tailgate-info">
                       <h4>Overall Records</h4>
                       <h6>
@@ -147,11 +152,13 @@
                       </h6>
                     </div>
                   </div>
-
-                  <!-- <h6>
-                        {{ bets.lines[0].formattedSpread }} | Total:
-                        {{ bets.lines[0].overUnder }}
-                      </h6> -->
+                  <!-- <div class="row">
+                    <h4>Betting</h4>
+                    <h6>
+                      {{ bets.lines[0].formattedSpread }} | Total:
+                      {{ bets.lines[0].overUnder }}
+                    </h6>
+                  </div> -->
                 </div>
 
                 <div class="member-info">

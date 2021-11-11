@@ -57,6 +57,7 @@
                         <h4>Game info:</h4>
                         <h6>{{ tailgate.game.name }}</h6>
                         <h6>{{ tailgate.game.stadium }} | {{ tailgate.game.start_time_conversion }}</h6>
+                        <h6></h6>
                       </div>
                     </div>
                   </div>
