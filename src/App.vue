@@ -278,7 +278,7 @@ export default {
           }
 
           const popup = new mapboxgl.Popup({ offset: 10 }).setHTML(
-            `<img src="${image_url}" style="width:150px;height:relative;"/><br/><a href=/tailgates/${id}>${description}</a><br/><p>${game}</p>`
+            `<img src="${image_url}" style="width:200px;height:relative;"/><br/><a href=/tailgates/${id}>${description}</a><br/><p>${game}</p>`
           );
 
           const feature = response.body.features[0];
