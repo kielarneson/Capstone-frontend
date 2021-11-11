@@ -17,11 +17,11 @@
               <div class="row">
                 <form v-on:submit.prevent="submit()">
                   <div class="form-group">
-                    <label for="exampleInputName1">Name</label>
+                    <label for="exampleInputName1">Email</label>
                     <input type="email" class="form-control" v-model="newSessionParams.email" />
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputImageURL1">Image URL</label>
+                    <label for="exampleInputImageURL1">Password</label>
                     <input type="password" class="form-control" v-model="newSessionParams.password" />
                   </div>
 
