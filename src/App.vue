@@ -258,11 +258,11 @@ export default {
       console.log(this.map);
 
       this.tailgates.forEach((tailgate) => {
-        this.addMarkerFromAddress(tailgate.id, tailgate.name, tailgate.game.name, tailgate.address);
+        this.addMarkerFromAddress(tailgate.id, tailgate.image_url, tailgate.name, tailgate.game.name, tailgate.address);
       });
     },
 
-    addMarkerFromAddress: function (id, description, game, address) {
+    addMarkerFromAddress: function (id, image_url, description, game, address) {
       this.mapboxClient.geocoding
         .forwardGeocode({
           query: address,
@@ -277,7 +277,9 @@ export default {
             return;
           }
 
-          const popup = new mapboxgl.Popup({ offset: 10 }).setHTML(`<br><a href='/tailgates/${id}'>${description}</a>`);
+          const popup = new mapboxgl.Popup({ offset: 10 }).setHTML(
+            `<img src="${image_url}" style="width:150px;height:relative;"/><br/><a href=/tailgates/${id}>${description}</a>`
+          );
 
           const feature = response.body.features[0];
           // Create a marker and add it to the map.
