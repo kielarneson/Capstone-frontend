@@ -39,7 +39,10 @@
                       <a :href="`/tailgates/${userTailgate.tailgate.id}`">
                         <h2>{{ userTailgate.tailgate.name }}</h2>
                       </a>
+                      <h6>{{ userTailgate.game.name }} | {{ userTailgate.game.start_time_conversion }}</h6>
+
                       <div class="col">
+                        <br />
                         <h4>Tailgate Info:</h4>
                         <h6>
                           {{ userTailgate.tailgate.address }}
@@ -48,16 +51,12 @@
                           {{ userTailgate.tailgate.end_time_conversion }}
                         </h6>
                       </div>
-
-                      <div class="col">
-                        <!-- Need to fix this start time conversion thing -->
-                        <h4>Game Info:</h4>
-                        <h6>{{ userTailgate.game.name }} | {{ userTailgate.game.start_time_conversion }}</h6>
-                      </div>
                     </div>
 
                     <!-- I dont understand how this works and it is probably wrong -->
-                    <button @click="setCurrentUserTailgate(userTailgate)" class="btn btn-info m-2">More info</button>
+                    <button @click="setCurrentUserTailgate(userTailgate)" class="btn btn-info m-2">
+                      Generate Gameday Map
+                    </button>
 
                     <div class="row">
                       <div v-if="currentUserTailgate.show && currentUserTailgate.id === userTailgate.id">
@@ -156,7 +155,7 @@
                                 <!-- <form>
                                   <div class="form-group"></div>
                                 </form> -->
-                                <h2>Update Lodging</h2>
+                                <!-- <h5>Update Lodging</h5> -->
 
                                 Lodging type:
                                 <select v-model="currentUserTailgate.lodgings[0].lodging_type" class="form-select">
@@ -181,7 +180,7 @@
                                   class="form-control"
                                 />
 
-                                <h2>Update Parking</h2>
+                                <!-- <h5>Update Parking</h5> -->
                                 Parking type:
                                 <select v-model="currentUserTailgate.parkings[0].parking_type" class="form-select">
                                   <option disabled value="">Please select one</option>
@@ -391,7 +390,7 @@ export default {
             .setHTML(description)
             .addTo(this.map);
           // added offset / kinda wonky
-          this.map.flyTo({ center: feature.center, zoom: 13.5 });
+          this.map.flyTo({ center: feature.center, zoom: 12.5 });
         });
     },
     addBarMarkerFromAddress: function (name, description, address) {
@@ -429,7 +428,7 @@ export default {
             .setPopup(popup)
             .addTo(this.map);
           this.barMarkers.push(marker);
-          this.map.flyTo({ center: feature.center, zoom: 14 });
+          this.map.flyTo({ center: feature.center, zoom: 13 });
         });
     },
     addRestaurantMarkerFromAddress: function (name, description, address) {
@@ -467,7 +466,7 @@ export default {
             .setPopup(popup)
             .addTo(this.map);
           this.restaurantMarkers.push(marker);
-          this.map.flyTo({ center: feature.center, zoom: 13.5 });
+          this.map.flyTo({ center: feature.center, zoom: 13 });
         });
     },
     addCampusMarkerFromAddress: function (name, description, address) {
@@ -507,7 +506,7 @@ export default {
             .setPopup(popup)
             .addTo(this.map);
           this.campusMarkers.push(marker);
-          this.map.flyTo({ center: feature.center, zoom: 13.5 });
+          this.map.flyTo({ center: feature.center, zoom: 13 });
         });
     },
     showBars: function () {

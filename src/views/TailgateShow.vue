@@ -173,9 +173,9 @@
 
                   <div class="col"></div>
                 </div>
-                <div class="member-info">
+                <!-- <div class="member-info">
                   <div class="row">review placeholder</div>
-                </div>
+                </div> -->
 
                 <div class="row">
                   <div v-if="current_user.id != tailgate.user_id">
@@ -206,7 +206,15 @@
                             <form>
                               <div class="form-group"></div>
                             </form>
-                            <h2>Input Lodging</h2>
+                            <h6>
+                              Please enter your lodging and parking information to generate maps that will aid in your
+                              trip planning and enhance your gameday experience (Note: you can change this information
+                              at any time).
+                            </h6>
+
+                            <br />
+
+                            <h4>Lodging Information</h4>
 
                             <ul>
                               <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
@@ -226,7 +234,7 @@
                             Address:
                             <input type="text" v-model="newLodgingParams.address" class="form-control" />
 
-                            <h2>Input Parking</h2>
+                            <h4>Parking Information</h4>
                             Parking type:
                             <select v-model="newParkingParams.parking_type" class="form-select">
                               <option disabled value="">Please select one</option>
